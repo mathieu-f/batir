@@ -1,0 +1,3 @@
+2014-02-04 11:22:52 u75586982 1KqeFc-1W5dCM0z54-00ClIb |< REMOTE=82.236.237.85 SCRIPT=/batir/wp-admin/install.php -- /usr/sbin/sendmail -t -i
+2014-02-04 11:22:52 u75586982 1KqeFc-1W5dCM0z54-00ClIb <= S=wordpress@batir-cote-sud.fr SZ=1281 D=0 SID=505644617
+2014-02-04 11:22:52 u75586982 1KqeFc-1W5dCM0z54-00ClIb => mathieu.yvan.fernandez@gmail.com msmtp.kundenserver.de[172.19.35.7] 250 Message 0M7z2j-1VFceD1JVB-00ve3u accepted by mreue007.kundenserver.de
