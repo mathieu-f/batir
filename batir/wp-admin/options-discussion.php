@@ -1,594 +1,273 @@
 <?php
 /**
- * Edit Tags Administration Screen.
+ * Discussion settings administration panel.
  *
  * @package WordPress
  * @subpackage Administration
  */
-
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! $taxnow )
-	wp_die( __( 'Invalid taxonomy' ) );
+if ( ! current_user_can( 'manage_options' ) )
+	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
 
-$tax = get_taxonomy( $taxnow );
+$title = __('Discussion Settings');
+$parent_file = 'options-general.php';
 
-if ( ! $tax )
-	wp_die( __( 'Invalid taxonomy' ) );
+get_current_screen()->add_help_tab( array(
+	'id'      => 'overview',
+	'title'   => __('Overview'),
+	'content' => '<p>' . __('This screen provides many options for controlling the management and display of comments and links to your posts/pages. So many, in fact, they won&#8217;t all fit here! :) Use the documentation links to get information on what each discussion setting does.') . '</p>' .
+		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+) );
 
-if ( ! current_user_can( $tax->cap->manage_terms ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ) );
-
-$wp_list_table = _get_list_table('WP_Terms_List_Table');
-$pagenum = $wp_list_table->get_pagenum();
-
-$title = $tax->labels->name;
-
-if ( 'post' != $post_type ) {
-	$parent_file = ( 'attachment' == $post_type ) ? 'upload.php' : "edit.php?post_type=$post_type";
-	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&amp;post_type=$post_type";
-} else if ( 'link_category' == $tax->name ) {
-	$parent_file = 'link-manager.php';
-	$submenu_file = 'edit-tags.php?taxonomy=link_category';
-} else {
-	$parent_file = 'edit.php';
-	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
-}
-
-add_screen_option( 'per_page', array( 'label' => $title, 'default' => 20, 'option' => 'edit_' . $tax->name . '_per_page' ) );
-
-switch ( $wp_list_table->current_action() ) {
-
-case 'add-tag':
-
-	check_admin_referer( 'add-tag', '_wpnonce_add-tag' );
-
-	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
-
-	$ret = wp_insert_term( $_POST['tag-name'], $taxonomy, $_POST );
-	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
-	if ( 'post' != $post_type )
-		$location .= '&post_type=' . $post_type;
-
-	if ( $referer = wp_get_original_referer() ) {
-		if ( false !== strpos( $referer, 'edit-tags.php' ) )
-			$location = $referer;
-	}
-
-	if ( $ret && !is_wp_error( $ret ) )
-		$location = add_query_arg( 'message', 1, $location );
-	else
-		$location = add_query_arg( 'message', 4, $location );
-	wp_redirect( $location );
-	exit;
-break;
-
-case 'delete':
-	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
-	if ( 'post' != $post_type )
-		$location .= '&post_type=' . $post_type;
-	if ( $referer = wp_get_referer() ) {
-		if ( false !== strpos( $referer, 'edit-tags.php' ) )
-			$location = $referer;
-	}
-
-	if ( !isset( $_REQUEST['tag_ID'] ) ) {
-		wp_redirect( $location );
-		exit;
-	}
-
-	$tag_ID = (int) $_REQUEST['tag_ID'];
-	check_admin_referer( 'delete-tag_' . $tag_ID );
-
-	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
-
-	wp_delete_term( $tag_ID, $taxonomy );
-
-	$location = add_query_arg( 'message', 2, $location );
-	wp_redirect( $location );
-	exit;
-
-break;
-
-case 'bulk-delete':
-	check_admin_referer( 'bulk-tags' );
-
-	if ( !current_user_can( $tax->cap->delete_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
-
-	$tags = (array) $_REQUEST['delete_tags'];
-	foreach ( $tags as $tag_ID ) {
-		wp_delete_term( $tag_ID, $taxonomy );
-	}
-
-	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
-	if ( 'post' != $post_type )
-		$location .= '&post_type=' . $post_type;
-	if ( $referer = wp_get_referer() ) {
-		if ( false !== strpos( $referer, 'edit-tags.php' ) )
-			$location = $referer;
-	}
-
-	$location = add_query_arg( 'message', 6, $location );
-	wp_redirect( $location );
-	exit;
-
-break;
-
-case 'edit':
-	$title = $tax->labels->edit_item;
-
-	$tag_ID = (int) $_REQUEST['tag_ID'];
-
-	$tag = get_term( $tag_ID, $taxonomy, OBJECT, 'edit' );
-	if ( ! $tag )
-		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
-	require_once( ABSPATH . 'wp-admin/admin-header.php' );
-	include( ABSPATH . 'wp-admin/edit-tag-form.php' );
-
-break;
-
-case 'editedtag':
-	$tag_ID = (int) $_POST['tag_ID'];
-	check_admin_referer( 'update-tag_' . $tag_ID );
-
-	if ( !current_user_can( $tax->cap->edit_terms ) )
-		wp_die( __( 'Cheatin&#8217; uh?' ) );
-
-	$tag = get_term( $tag_ID, $taxonomy );
-	if ( ! $tag )
-		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
-
-	$ret = wp_update_term( $tag_ID, $taxonomy, $_POST );
-
-	$location = 'edit-tags.php?taxonomy=' . $taxonomy;
-	if ( 'post' != $post_type )
-		$location .= '&post_type=' . $post_type;
-
-	if ( $referer = wp_get_original_referer() ) {
-		if ( false !== strpos( $referer, 'edit-tags.php' ) )
-			$location = $referer;
-	}
-
-	if ( $ret && !is_wp_error( $ret ) )
-		$location = add_query_arg( 'message', 3, $location );
-	else
-		$location = add_query_arg( 'message', 5, $location );
-
-	wp_redirect( $location );
-	exit;
-break;
-
-default:
-if ( ! empty($_REQUEST['_wp_http_referer']) ) {
-	$location = remove_query_arg( array('_wp_http_referer', '_wpnonce'), wp_unslash($_SERVER['REQUEST_URI']) );
-
-	if ( ! empty( $_REQUEST['paged'] ) )
-		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'] );
-
-	wp_redirect( $location );
-	exit;
-}
-
-$wp_list_table->prepare_items();
-$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
-
-if ( $pagenum > $total_pages && $total_pages > 0 ) {
-	wp_redirect( add_query_arg( 'paged', $total_pages ) );
-	exit;
-}
-
-wp_enqueue_script('admin-tags');
-if ( current_user_can($tax->cap->edit_terms) )
-	wp_enqueue_script('inline-edit-tax');
-
-if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $taxonomy  ) {
-	$help ='';
-	if ( 'category' == $taxonomy )
-		$help = '<p>' . sprintf(__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ) , 'options-writing.php' ) . '</p>';
-	elseif ( 'link_category' == $taxonomy )
-		$help = '<p>' . __( 'You can create groups of links by using Link Categories. Link Category names must be unique and Link Categories are separate from the categories you use for posts.' ) . '</p>';
-	else
-		$help = '<p>' . __( 'You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.' ) . '</p>';
-
-	if ( 'link_category' == $taxonomy )
-		$help .= '<p>' . __( 'You can delete Link Categories in the Bulk Action pull-down, but that action does not delete the links within the category. Instead, it moves them to the default Link Category.' ) . '</p>';
-	else
-		$help .='<p>' . __( 'What&#8217;s the difference between categories and tags? Normally, tags are ad-hoc keywords that identify important information in your post (names, subjects, etc) that may or may not recur in other posts, while categories are pre-determined sections. If you think of your site like a book, the categories are like the Table of Contents and the tags are like the terms in the index.' ) . '</p>';
-
-	get_current_screen()->add_help_tab( array(
-		'id'      => 'overview',
-		'title'   => __('Overview'),
-		'content' => $help,
-	) );
-
-	if ( 'category' == $taxonomy || 'post_tag' == $taxonomy ) {
-		if ( 'category' == $taxonomy )
-			$help = '<p>' . __( 'When adding a new category on this screen, you&#8217;ll fill in the following fields:' ) . '</p>';
-		else
-			$help = '<p>' . __( 'When adding a new tag on this screen, you&#8217;ll fill in the following fields:' ) . '</p>';
-
-		$help .= '<ul>' .
-		'<li>' . __( '<strong>Name</strong> - The name is how it appears on your site.' ) . '</li>';
-
-		if ( ! global_terms_enabled() )
-			$help .= '<li>' . __( '<strong>Slug</strong> - The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
-
-		if ( 'category' == $taxonomy )
-			$help .= '<li>' . __( '<strong>Parent</strong> - Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have child categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown.' ) . '</li>';
-
-		$help .= '<li>' . __( '<strong>Description</strong> - The description is not prominent by default; however, some themes may display it.' ) . '</li>' .
-		'</ul>' .
-		'<p>' . __( 'You can change the display of this screen using the Screen Options tab to set how many items are displayed per screen and to display/hide columns in the table.' ) . '</p>';
-
-		get_current_screen()->add_help_tab( array(
-			'id'      => 'adding-terms',
-			'title'   => 'category' == $taxonomy ? __( 'Adding Categories' ) : __( 'Adding Tags' ),
-			'content' => $help,
-		) );
-	}
-
-	$help = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
-
-	if ( 'category' == $taxonomy )
-		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Categories_Screen" target="_blank">Documentation on Categories</a>' ) . '</p>';
-	elseif ( 'link_category' == $taxonomy )
-		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Links_Link_Categories_Screen" target="_blank">Documentation on Link Categories</a>' ) . '</p>';
-	else
-		$help .= '<p>' . __( '<a href="http://codex.wordpress.org/Posts_Tags_Screen" target="_blank">Documentation on Tags</a>' ) . '</p>';
-
-	$help .= '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>';
-
-	get_current_screen()->set_help_sidebar( $help );
-
-	unset( $help );
-}
-
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
-
-if ( !current_user_can($tax->cap->edit_terms) )
-	wp_die( __('You are not allowed to edit this item.') );
-
-$messages = array();
-$messages['_item'] = array(
-	0 => '', // Unused. Messages start at index 1.
-	1 => __( 'Item added.' ),
-	2 => __( 'Item deleted.' ),
-	3 => __( 'Item updated.' ),
-	4 => __( 'Item not added.' ),
-	5 => __( 'Item not updated.' ),
-	6 => __( 'Items deleted.' )
-);
-$messages['category'] = array(
-	0 => '', // Unused. Messages start at index 1.
-	1 => __( 'Category added.' ),
-	2 => __( 'Category deleted.' ),
-	3 => __( 'Category updated.' ),
-	4 => __( 'Category not added.' ),
-	5 => __( 'Category not updated.' ),
-	6 => __( 'Categories deleted.' )
-);
-$messages['post_tag'] = array(
-	0 => '', // Unused. Messages start at index 1.
-	1 => __( 'Tag added.' ),
-	2 => __( 'Tag deleted.' ),
-	3 => __( 'Tag updated.' ),
-	4 => __( 'Tag not added.' ),
-	5 => __( 'Tag not updated.' ),
-	6 => __( 'Tags deleted.' )
+get_current_screen()->set_help_sidebar(
+	'<p><strong>' . __('For more information:') . '</strong></p>' .
+	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Discussion_Screen" target="_blank">Documentation on Discussion Settings</a>') . '</p>' .
+	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-/**
- * Filter the messages displayed when a tag is updated.
- *
- * @since 3.7.0
- *
- * @param array $messages The messages to be displayed.
- */
-$messages = apply_filters( 'term_updated_messages', $messages );
-
-$message = false;
-if ( isset( $_REQUEST['message'] ) && ( $msg = (int) $_REQUEST['message'] ) ) {
-	if ( isset( $messages[ $taxonomy ][ $msg ] ) )
-		$message = $messages[ $taxonomy ][ $msg ];
-	elseif ( ! isset( $messages[ $taxonomy ] ) && isset( $messages['_item'][ $msg ] ) )
-		$message = $messages['_item'][ $msg ];
-}
-
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
-<div class="wrap nosubsub">
-<h2><?php echo esc_html( $title );
-if ( !empty($_REQUEST['s']) )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash($_REQUEST['s']) ) ); ?>
-</h2>
+<div class="wrap">
+<h2><?php echo esc_html( $title ); ?></h2>
 
-<?php if ( $message ) : ?>
-<div id="message" class="updated"><p><?php echo $message; ?></p></div>
-<?php $_SERVER['REQUEST_URI'] = remove_query_arg(array('message'), $_SERVER['REQUEST_URI']);
-endif; ?>
-<div id="ajax-response"></div>
+<form method="post" action="options.php">
+<?php settings_fields('discussion'); ?>
 
-<form class="search-form" action="" method="get">
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
-<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php _e('Default article settings'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Default article settings'); ?></span></legend>
+<label for="default_pingback_flag">
+<input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked('1', get_option('default_pingback_flag')); ?> />
+<?php _e('Attempt to notify any blogs linked to from the article'); ?></label>
+<br />
+<label for="default_ping_status">
+<input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_option('default_ping_status')); ?> />
+<?php _e('Allow link notifications from other blogs (pingbacks and trackbacks)'); ?></label>
+<br />
+<label for="default_comment_status">
+<input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_option('default_comment_status')); ?> />
+<?php _e('Allow people to post comments on new articles'); ?></label>
+<br />
+<p class="description"><?php echo '(' . __( 'These settings may be overridden for individual articles.' ) . ')'; ?></p>
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Other comment settings'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Other comment settings'); ?></span></legend>
+<label for="require_name_email"><input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_option('require_name_email')); ?> /> <?php _e('Comment author must fill out name and e-mail'); ?></label>
+<br />
+<label for="comment_registration">
+<input name="comment_registration" type="checkbox" id="comment_registration" value="1" <?php checked('1', get_option('comment_registration')); ?> />
+<?php _e('Users must be registered and logged in to comment'); ?>
+<?php if ( !get_option( 'users_can_register' ) && is_multisite() ) echo ' ' . __( '(Signup has been disabled. Only members of this site can comment.)' ); ?>
+</label>
+<br />
 
-<?php $wp_list_table->search_box( $tax->labels->search_items, 'tag' ); ?>
+<label for="close_comments_for_old_posts">
+<input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked('1', get_option('close_comments_for_old_posts')); ?> />
+<?php printf( __('Automatically close comments on articles older than %s days'), '</label><label for="close_comments_days_old"><input name="close_comments_days_old" type="number" min="0" step="1" id="close_comments_days_old" value="' . esc_attr(get_option('close_comments_days_old')) . '" class="small-text" />'); ?>
+</label>
+<br />
+<label for="thread_comments">
+<input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked('1', get_option('thread_comments')); ?> />
+<?php
+/**
+ * Filter the maximum depth of threaded/nested comments.
+ *
+ * @since 2.7.0.
+ *
+ * @param int $10 The maximum depth of threaded comments. Default 10.
+ */
+$maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 
+$thread_comments_depth = '</label><label for="thread_comments_depth"><select name="thread_comments_depth" id="thread_comments_depth">';
+for ( $i = 2; $i <= $maxdeep; $i++ ) {
+	$thread_comments_depth .= "<option value='" . esc_attr($i) . "'";
+	if ( get_option('thread_comments_depth') == $i ) $thread_comments_depth .= " selected='selected'";
+	$thread_comments_depth .= ">$i</option>";
+}
+$thread_comments_depth .= '</select>';
+
+printf( __('Enable threaded (nested) comments %s levels deep'), $thread_comments_depth );
+
+?></label>
+<br />
+<label for="page_comments">
+<input name="page_comments" type="checkbox" id="page_comments" value="1" <?php checked('1', get_option('page_comments')); ?> />
+<?php
+
+$default_comments_page = '</label><label for="default_comments_page"><select name="default_comments_page" id="default_comments_page"><option value="newest"';
+if ( 'newest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
+$default_comments_page .= '>' . __('last') . '</option><option value="oldest"';
+if ( 'oldest' == get_option('default_comments_page') ) $default_comments_page .= ' selected="selected"';
+$default_comments_page .= '>' . __('first') . '</option></select>';
+
+printf( __('Break comments into pages with %1$s top level comments per page and the %2$s page displayed by default'), '</label><label for="comments_per_page"><input name="comments_per_page" type="number" step="1" min="0" id="comments_per_page" value="' . esc_attr(get_option('comments_per_page')) . '" class="small-text" />', $default_comments_page );
+
+?></label>
+<br />
+<label for="comment_order"><?php
+
+$comment_order = '<select name="comment_order" id="comment_order"><option value="asc"';
+if ( 'asc' == get_option('comment_order') ) $comment_order .= ' selected="selected"';
+$comment_order .= '>' . __('older') . '</option><option value="desc"';
+if ( 'desc' == get_option('comment_order') ) $comment_order .= ' selected="selected"';
+$comment_order .= '>' . __('newer') . '</option></select>';
+
+printf( __('Comments should be displayed with the %s comments at the top of each page'), $comment_order );
+
+?></label>
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('E-mail me whenever'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('E-mail me whenever'); ?></span></legend>
+<label for="comments_notify">
+<input name="comments_notify" type="checkbox" id="comments_notify" value="1" <?php checked('1', get_option('comments_notify')); ?> />
+<?php _e('Anyone posts a comment'); ?> </label>
+<br />
+<label for="moderation_notify">
+<input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked('1', get_option('moderation_notify')); ?> />
+<?php _e('A comment is held for moderation'); ?> </label>
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Before a comment appears'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Before a comment appears'); ?></span></legend>
+<label for="comment_moderation">
+<input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_option('comment_moderation')); ?> />
+<?php _e('Comment must be manually approved'); ?> </label>
+<br />
+<label for="comment_whitelist"><input type="checkbox" name="comment_whitelist" id="comment_whitelist" value="1" <?php checked('1', get_option('comment_whitelist')); ?> /> <?php _e('Comment author must have a previously approved comment'); ?></label>
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Comment Moderation'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Comment Moderation'); ?></span></legend>
+<p><label for="comment_max_links"><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="number" step="1" min="0" id="comment_max_links" value="' . esc_attr(get_option('comment_max_links')) . '" class="small-text" />' ); ?></label></p>
+
+<p><label for="moderation_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="edit-comments.php?comment_status=moderated">moderation queue</a>. One word or IP per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.'); ?></label></p>
+<p>
+<textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys" class="large-text code"><?php echo esc_textarea( get_option( 'moderation_keys' ) ); ?></textarea>
+</p>
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Comment Blacklist'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Comment Blacklist'); ?></span></legend>
+<p><label for="blacklist_keys"><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so &#8220;press&#8221; will match &#8220;WordPress&#8221;.'); ?></label></p>
+<p>
+<textarea name="blacklist_keys" rows="10" cols="50" id="blacklist_keys" class="large-text code"><?php echo esc_textarea( get_option( 'blacklist_keys' ) ); ?></textarea>
+</p>
+</fieldset></td>
+</tr>
+<?php do_settings_fields('discussion', 'default'); ?>
+</table>
+
+<h3 class="title"><?php _e('Avatars'); ?></h3>
+
+<p><?php _e('An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites. Here you can enable the display of avatars for people who comment on your site.'); ?></p>
+
+<?php // the above would be a good place to link to codex documentation on the gravatar functions, for putting it in themes. anything like that? ?>
+
+<table class="form-table">
+<tr valign="top">
+<th scope="row"><?php _e('Avatar Display'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Avatar Display'); ?></span></legend>
+	<label for="show_avatars">
+		<input type="checkbox" id="show_avatars" name="show_avatars" value="1" <?php checked( get_option('show_avatars'), 1 ); ?> />
+		<?php _e( 'Show Avatars' ); ?>
+	</label>
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Maximum Rating'); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e('Maximum Rating'); ?></span></legend>
+
+<?php
+$ratings = array(
+	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	'G' => __('G &#8212; Suitable for all audiences'),
+	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	'PG' => __('PG &#8212; Possibly offensive, usually for audiences 13 and above'),
+	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	'R' => __('R &#8212; Intended for adult audiences above 17'),
+	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	'X' => __('X &#8212; Even more mature than above')
+);
+foreach ($ratings as $key => $rating) :
+	$selected = (get_option('avatar_rating') == $key) ? 'checked="checked"' : '';
+	echo "\n\t<label><input type='radio' name='avatar_rating' value='" . esc_attr($key) . "' $selected/> $rating</label><br />";
+endforeach;
+?>
+
+</fieldset></td>
+</tr>
+<tr valign="top">
+<th scope="row"><?php _e('Default Avatar'); ?></th>
+<td class="defaultavatarpicker"><fieldset><legend class="screen-reader-text"><span><?php _e('Default Avatar'); ?></span></legend>
+
+<?php _e('For users without a custom avatar of their own, you can either display a generic logo or a generated one based on their e-mail address.'); ?><br />
+
+<?php
+$avatar_defaults = array(
+	'mystery' => __('Mystery Man'),
+	'blank' => __('Blank'),
+	'gravatar_default' => __('Gravatar Logo'),
+	'identicon' => __('Identicon (Generated)'),
+	'wavatar' => __('Wavatar (Generated)'),
+	'monsterid' => __('MonsterID (Generated)'),
+	'retro' => __('Retro (Generated)')
+);
+/**
+ * Filter the default avatars.
+ *
+ * Avatars are stored in key/value pairs, where the key is option value,
+ * and the name is the displayed avatar name.
+ *
+ * @since 2.6.0
+ *
+ * @param array $avatar_defaults Array of default avatars.
+ */
+$avatar_defaults = apply_filters( 'avatar_defaults', $avatar_defaults );
+$default = get_option('avatar_default');
+if ( empty($default) )
+	$default = 'mystery';
+$size = 32;
+$avatar_list = '';
+foreach ( $avatar_defaults as $default_key => $default_name ) {
+	$selected = ($default == $default_key) ? 'checked="checked" ' : '';
+	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . esc_attr($default_key) . "' {$selected}/> ";
+
+	$avatar = get_avatar( $user_email, $size, $default_key );
+	$avatar_list .= preg_replace("/src='(.+?)'/", "src='\$1&amp;forcedefault=1'", $avatar);
+
+	$avatar_list .= ' ' . $default_name . '</label>';
+	$avatar_list .= '<br />';
+}
+/**
+ * Filter the HTML output of the default avatar list.
+ *
+ * @since 2.6.0
+ *
+ * @param string $avatar_list HTML markup of the avatar list.
+ */
+echo apply_filters( 'default_avatar_select', $avatar_list );
+?>
+
+</fieldset></td>
+</tr>
+<?php do_settings_fields('discussion', 'avatars'); ?>
+</table>
+
+<?php do_settings_sections('discussion'); ?>
+
+<?php submit_button(); ?>
 </form>
-<br class="clear" />
-
-<div id="col-container">
-
-<div id="col-right">
-<div class="col-wrap">
-<form id="posts-filter" action="" method="post">
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
-<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
-
-<?php $wp_list_table->display(); ?>
-
-<br class="clear" />
-</form>
-
-<?php if ( 'category' == $taxonomy ) : ?>
-<div class="form-wrap">
-<?php /** This filter is documented in wp-includes/category-template.php */ ?>
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the category <strong>%s</strong>.'), apply_filters('the_category', get_cat_name(get_option('default_category')))) ?></p>
-<?php if ( current_user_can( 'import' ) ) : ?>
-<p><?php printf(__('Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.'), 'import.php') ?></p>
-<?php endif; ?>
-</div>
-<?php elseif ( 'post_tag' == $taxonomy && current_user_can( 'import' ) ) : ?>
-<div class="form-wrap">
-<p><?php printf(__('Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.'), 'import.php') ;?></p>
-</div>
-<?php endif;
-
-/**
- * Fires after the taxonomy list table.
- *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
- *
- * @since 3.0.0
- *
- * @param string $taxonomy The taxonomy name.
- */
-do_action( "after-{$taxonomy}-table", $taxonomy );
-?>
-
-</div>
-</div><!-- /col-right -->
-
-<div id="col-left">
-<div class="col-wrap">
-
-<?php
-
-if ( !is_null( $tax->labels->popular_items ) ) {
-	if ( current_user_can( $tax->cap->edit_terms ) )
-		$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false, 'link' => 'edit' ) );
-	else
-		$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
-
-	if ( $tag_cloud ) :
-	?>
-<div class="tagcloud">
-<h3><?php echo $tax->labels->popular_items; ?></h3>
-<?php echo $tag_cloud; unset( $tag_cloud ); ?>
-</div>
-<?php
-endif;
-}
-
-if ( current_user_can($tax->cap->edit_terms) ) {
-	if ( 'category' == $taxonomy ) {
-		/**
- 		 * Fires before the Add Category form.
-		 *
-		 * @since 2.1.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_pre_add_form instead.
-		 *
-		 * @param object $arg Optional arguments cast to an object.
-		 */
-		do_action( 'add_category_form_pre', (object) array( 'parent' => 0 ) );
-	} elseif ( 'link_category' == $taxonomy ) {
-		/**
-		 * Fires before the link category form.
-		 *
-		 * @since 2.3.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_pre_add_form instead.
-		 *
-		 * @param object $arg Optional arguments cast to an object.
-		 */
-		do_action( 'add_link_category_form_pre', (object) array( 'parent' => 0 ) );
-	} else {
-		/**
-		 * Fires before the Add Tag form.
-		 *
-		 * @since 2.5.0
-		 * @deprecated 3.0.0 Use {$taxonomy}_pre_add_form instead.
-		 *
-		 * @param string $taxonomy The taxonomy slug.
-		 */
-		do_action( 'add_tag_form_pre', $taxonomy );
-	}
-
-	/**
-	 * Fires before the Add Term form for all taxonomies.
-	 *
-	 * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string $taxonomy The taxonomy slug.
-	 */
-	do_action( "{$taxonomy}_pre_add_form", $taxonomy );
-?>
-
-<div class="form-wrap">
-<h3><?php echo $tax->labels->add_new_item; ?></h3>
-<?php
-/**
- * Fires at the beginning of the Add Tag form.
- *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
- *
- * @since 3.7.0
- */
-?>
-<form id="addtag" method="post" action="edit-tags.php" class="validate"<?php do_action( "{$taxonomy}_term_new_form_tag" ); ?>>
-<input type="hidden" name="action" value="add-tag" />
-<input type="hidden" name="screen" value="<?php echo esc_attr($current_screen->id); ?>" />
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy); ?>" />
-<input type="hidden" name="post_type" value="<?php echo esc_attr($post_type); ?>" />
-<?php wp_nonce_field('add-tag', '_wpnonce_add-tag'); ?>
-
-<div class="form-field form-required">
-	<label for="tag-name"><?php _ex('Name', 'Taxonomy Name'); ?></label>
-	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
-	<p><?php _e('The name is how it appears on your site.'); ?></p>
-</div>
-<?php if ( ! global_terms_enabled() ) : ?>
-<div class="form-field">
-	<label for="tag-slug"><?php _ex('Slug', 'Taxonomy Slug'); ?></label>
-	<input name="slug" id="tag-slug" type="text" value="" size="40" />
-	<p><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p>
-</div>
-<?php endif; // global_terms_enabled() ?>
-<?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
-<div class="form-field">
-	<label for="parent"><?php _ex('Parent', 'Taxonomy Parent'); ?></label>
-	<?php
-	$dropdown_args = array(
-		'hide_empty'       => 0,
-		'hide_if_empty'    => false,
-		'taxonomy'         => $taxonomy,
-		'name'             => 'parent',
-		'orderby'          => 'name',
-		'hierarchical'     => true,
-		'show_option_none' => __( 'None' ),
-	);
-
-	/**
-	 * Filter the taxonomy parent drop-down on the Edit Term page.
-	 *
-	 * @since 3.7.0
-	 *
-	 * @param array  $dropdown_args {
-	 *     An array of taxonomy parent drop-down arguments.
-	 *
-	 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0|false.
-	 *     @type bool     $hide_if_empty    Whether to hide the drop-down if no terms exist. Default false.
-	 *     @type string   $taxonomy         The taxonomy slug.
-	 *     @type string   $name             Value of the name attribute to use for the drop-down select element.
-	 *                                      Default 'parent'.
-	 *     @type string   $orderby          The field to order by. Default 'name'.
-	 *     @type bool     $hierarchical     Whether the taxonomy is hierarchical. Default true.
-	 *     @type string   $show_option_none Label to display if there are no terms. Default 'None'.
-	 * }
-	 * @param string $taxonomy The taxonomy slug.
-	 */
-	$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy );
-	wp_dropdown_categories( $dropdown_args );
-	?>
-	<?php if ( 'category' == $taxonomy ) : // @todo: Generic text for hierarchical taxonomies ?>
-		<p><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
-	<?php endif; ?>
-</div>
-<?php endif; // is_taxonomy_hierarchical() ?>
-<div class="form-field">
-	<label for="tag-description"><?php _ex('Description', 'Taxonomy Description'); ?></label>
-	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
-	<p><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></p>
 </div>
 
-<?php
-if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
-	/**
-	 * Fires after the Add Tag form fields for non-hierarchical taxonomies.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string $taxonomy The taxonomy slug.
-	 */
-	do_action( 'add_tag_form_fields', $taxonomy );
-}
-
-/**
- * Fires after the Add Term form fields for hierarchical taxonomies.
- *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
- *
- * @since 3.0.0
- *
- * @param string $taxonomy The taxonomy slug.
- */
-do_action( "{$taxonomy}_add_form_fields", $taxonomy );
-
-submit_button( $tax->labels->add_new_item );
-
-if ( 'category' == $taxonomy ) {
-	/**
-	 * Fires at the end of the Edit Category form.
-	 *
-	 * @since 2.1.0
-	 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
-	 *
-	 * @param object $arg Optional arguments cast to an object.
-	 */
-	do_action( 'edit_category_form', (object) array( 'parent' => 0 ) );
-} elseif ( 'link_category' == $taxonomy ) {
-	/**
-	 * Fires at the end of the Edit Link form.
-	 *
-	 * @since 2.3.0
-	 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
-	 *
-	 * @param object $arg Optional arguments cast to an object.
-	 */
-	do_action( 'edit_link_category_form', (object) array( 'parent' => 0 ) );
-} else {
-	/**
-	 * Fires at the end of the Add Tag form.
-	 *
-	 * @since 2.7.0
-	 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
-	 *
-	 * @param string $taxonomy The taxonomy slug.
-	 */
-	do_action( 'add_tag_form', $taxonomy );
-}
-
-/**
- * Fires at the end of the Add Term form for all taxonomies.
- *
- * The dynamic portion of the hook name, $taxonomy, refers to the taxonomy slug.
- *
- * @since 3.0.0
- *
- * @param string $taxonomy The taxonomy slug.
- */
-do_action( "{$taxonomy}_add_form", $taxonomy );
-?>
-</form></div>
-<?php } ?>
-
-</div>
-</div><!-- /col-left -->
-
-</div><!-- /col-container -->
-</div><!-- /wrap -->
-<script type="text/javascript">
-try{document.forms.addtag['tag-name'].focus();}catch(e){}
-</script>
-<?php $wp_list_table->inline_edit(); ?>
-
-<?php
-break;
-}
-
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
