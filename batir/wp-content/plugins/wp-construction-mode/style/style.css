@@ -1,0 +1,64 @@
+/* 
+    Document   : style
+    Created on : Feb 22, 2014, 9:30:04 AM
+    Author     : Bilal
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.center{
+    text-align: center;
+}
+#wuc-wrapper{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: url('../images/background1.jpg') #e1e1e1;
+    background-size: cover;
+
+}
+#wuc-wrapper a{
+    text-decoration: none;
+}
+#wuc-wrapper .wuc-logo{
+    width: 200px;
+    margin: 20px auto;
+    
+}
+#wuc-box{
+    width: 50%;
+    margin: 150px auto;
+    background: #363E41;
+    background: rgba(54,62,65,0.6);
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 5px #464646;
+    color: #ffffff;
+    padding: 20px;
+    z-index: 9999;
+}
+#wuc-box .title{
+    font-weight: 200;
+    font-size: 28px;
+    margin: 25px 0;
+}
+#wuc-box .subtitle{
+    font-size: 20px;
+    margin: 15px 0;
+}
+#wuc-box .wuc_icons{
+    margin: 50px auto 0 auto;
+    text-align: center;
+}
+
+#wuc-box .wuc_icons img:first-child,
+#wuc-box .wuc_icons img:last-child{
+    margin: 0;
+}
+#wuc-box .wuc_icons img{
+    width: 30px;
+    margin: 0 5px;
+    transition: 0.4s all ease;
+    -moz-transition: 0.4s all ease;
+    -webkit-transition: 0.4s all ease;
+}
