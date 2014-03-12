@@ -33,7 +33,7 @@
             </h2>
 
             <h3 class="subtitle">
-                <?php echo $set_caption; ?>
+                <?php echo stripslashes($set_caption); ?>
             </h3>
         </div>
         <div class="wuc_icons">
@@ -59,6 +59,10 @@
             <?php } ?>
         </div>
     </div>
+    <script>
+        jQuery('#wuc-box').css({'position':'relative','top':'-800px'});
+        jQuery('#wuc-box').animate({'top':'0'},1500);
+    </script>
 </div>
 
 
