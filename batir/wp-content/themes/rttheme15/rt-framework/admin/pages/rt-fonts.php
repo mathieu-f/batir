@@ -28,7 +28,7 @@ if($font_file){
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'></script>
 <script type='text/javascript' src='../../../js/cufon-yui.js'></script>
 
-<?php 
+<?php
 
 if($font_system=="google"){
 echo "\n".'<link href="http://fonts.googleapis.com/css?family='.$font_file.'" rel="stylesheet" type="text/css">'."\n";

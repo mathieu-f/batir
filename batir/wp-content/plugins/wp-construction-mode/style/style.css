@@ -1,70 +1,130 @@
-/* 
-    Document   : style
-    Created on : Feb 22, 2014, 9:30:04 AM
-    Author     : Bilal
-    Description:
-        Purpose of the stylesheet follows.
-*/
-.center{
+.center {
     text-align: center;
 }
 
-.center h2,
-.center h3 {
-    color:#fff;
-}
-
-#wuc-wrapper{
+#wuc-wrapper {
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    background: url('../images/background1.jpg') #e1e1e1;
+    background: url('../images/background1-ter.jpg') #e1e1e1;
     background-size: cover;
-
 }
-#wuc-wrapper a{
+
+#wuc-wrapper a {
     text-decoration: none;
 }
-#wuc-wrapper .wuc-logo{
+
+#wuc-wrapper .wuc-logo {
     width: 200px;
     margin: 20px auto;
-    
 }
-#wuc-box{
+
+#wuc-box {
     width: 50%;
+    min-width: 380px;
     margin: 150px auto;
     background: #363E41;
-    background: rgba(54,62,65,0.9);
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 1px 5px #464646;
-    color: #ffffff;
+    background: rgba(240, 240, 240, 0.8);
+    border: 1px solid #151515;
+    box-shadow: 0 1px 20px #464646;
+    color: #000;
     padding: 20px;
     z-index: 9999;
+    font-family: Oswald, arial, serif
 }
-#wuc-box .title{
-    font-weight: 200;
+
+#wuc-box .logo {
+    position: relative;
+    width: 200px;
+    margin: 40px auto 10px auto
+}
+
+#wuc-box .logo img {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+}
+
+#wuc-box h1,
+#wuc-box h2 {
+    color: #06c;
+    font-weight: bold;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-weight: bold;
+}
+
+#wuc-box h1 {
     font-size: 28px;
-    margin: 25px 0;
+    width: 200px;
+    margin: 10px auto;
+    z-index: 10;
 }
-#wuc-box .subtitle{
-    font-size: 20px;
+
+#wuc-box h2 {
+    font-size: 12px;
+}
+
+#wuc-box h3 {
+    color: #000;
+    font-size: 15px;
     margin: 15px 0;
 }
-#wuc-box .wuc_icons{
-    margin: 50px auto 0 auto;
+
+#wuc-box .wuc_icons {
+    margin: 10px auto 0 auto;
     text-align: center;
 }
 
 #wuc-box .wuc_icons img:first-child,
-#wuc-box .wuc_icons img:last-child{
+#wuc-box .wuc_icons img:last-child {
     margin: 0;
 }
-#wuc-box .wuc_icons img{
+
+#wuc-box .wuc_icons img {
     width: 30px;
     margin: 0 5px;
     transition: 0.4s all ease;
     -moz-transition: 0.4s all ease;
     -webkit-transition: 0.4s all ease;
+}
+
+#wuc-box form {
+    display: block;
+    position: relative;
+    width: 380px;
+    margin: 0 auto;
+}
+
+#wuc-box input.email {
+    font-family: Oswald, arial, serif;
+    width: 340px;
+    background-color: #fff;
+    border-width: 0;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.6em;
+    color: #06c;
+    padding-left: 15px;
+    font-style: italic;
+}
+
+#wuc-box .btn_email {
+    background: url('../images/plus.png') no-repeat #06c;
+    display: block;
+    outline: medium none;
+    text-indent: -9000px;
+    height: 27px;
+    width: 27px;
+    cursor: pointer;
+    border: none;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    margin-top: -13px;
 }

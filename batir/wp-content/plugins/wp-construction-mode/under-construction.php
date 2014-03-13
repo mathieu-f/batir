@@ -163,13 +163,9 @@ function show_uc() {
 	
     if ($set_opt == 'Yes' && !user_can($current_user, 'administrator')) {        
         if($set_page == get_the_ID()){
-            //echo "<div style='margin:0 auto; text-align:center;font-size:30px;padding-top:30px;'>" . $set_msg . "</div>";
-            include_once 'style/style_css.php';
             include_once 'library/construction.php';
             exit(0);
         }else if($set_page == "all"){
-            //echo "<div style='margin:0 auto; text-align:center;font-size:30px;padding-top:30px;'>" . $set_msg . "</div>";
-            include_once 'style/style_css.php';
             include_once 'library/construction.php';
             exit(0);
         }
