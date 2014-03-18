@@ -8,7 +8,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: url('../images/background1-ter.jpg') #e1e1e1;
+    background: url('../images/background1-ter.jpg') #e1e1e1 repeat;
     background-size: cover;
 }
 
@@ -24,9 +24,9 @@
 #wuc-box {
     width: 50%;
     min-width: 380px;
-    margin: 150px auto;
+    margin: 60px auto;
     background: #363E41;
-    background: rgba(240, 240, 240, 0.8);
+    background: rgba(240, 240, 240, 0.6);
     border: 1px solid #151515;
     box-shadow: 0 1px 20px #464646;
     color: #000;
@@ -37,43 +37,52 @@
 
 #wuc-box .logo {
     position: relative;
-    width: 200px;
-    margin: 40px auto 10px auto
+    width: 380px;
+    margin: 70px auto 10px auto;
 }
 
 #wuc-box .logo img {
     position: absolute;
-    bottom: -20px;
-    right: 0;
+    bottom: -30px;
+    right: 8px;
 }
 
 #wuc-box h1,
 #wuc-box h2 {
     color: #06c;
-    font-weight: bold;
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    font-family: 'CenturyGothicBold', sans-serif;
     margin-top: 0;
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
-    font-weight: bold;
+   /* text-shadow: #fff 1px 1px, #fff -1px 1px, #fff -1px -1px, #fff 1px -1px;*/
 }
 
 #wuc-box h1 {
-    font-size: 28px;
-    width: 200px;
-    margin: 10px auto;
+    font-size: 52px;
+    width: 360px;
+    margin: 15px auto;
     z-index: 10;
 }
 
 #wuc-box h2 {
-    font-size: 12px;
+    font-size: 23px;
 }
 
 #wuc-box h3 {
     color: #000;
     font-size: 15px;
     margin: 15px 0;
+}
+
+#wuc-box .content {
+    background : none;
+}
+
+#wuc-box .center p {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px 0;
 }
 
 #wuc-box .wuc_icons {
@@ -108,13 +117,12 @@
     border-width: 0;
     border-radius: 5px;
     font-weight: 600;
-    font-size: 1.6em;
-    color: #06c;
+    font-size: 15px;
     padding-left: 15px;
     font-style: italic;
 }
 
-#wuc-box .btn_email {
+#btn_email {
     background: url('../images/plus.png') no-repeat #06c;
     display: block;
     outline: medium none;
@@ -127,4 +135,10 @@
     right: 15px;
     top: 50%;
     margin-top: -13px;
+}
+
+#wuc-box .email_submitted {
+    color: #000;
+    font-size: 15px;
+    margin: 15px 0;
 }

@@ -1,4 +1,0 @@
-AuthName "Protected page"
-AuthType Basic
-AuthUserFile "/homepages/5/d505644617/htdocs/.htpasswd"
-Require valid-user

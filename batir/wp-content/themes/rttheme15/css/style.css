@@ -10,6 +10,41 @@
 /* ----------------------------------------------------
 	GLOBAL STRUCTURE
 ------------------------------------------------------- */
+@font-face {
+    font-family: 'CenturyGothicRegular';
+    src: url('../../../../wp-includes/fonts/gothic.eot');
+    src: url('../../../../wp-includes/fonts/gothic.eot') format('embedded-opentype'),
+    url('../../../../wp-includes/fonts/gothic.woff') format('woff'),
+    url('../../../../wp-includes/fonts/gothic.ttf') format('truetype'),
+    url('../../../../wp-includes/fonts/gothic.svg#CenturyGothicRegular') format('svg');
+}
+
+@font-face {
+    font-family: 'CenturyGothicBold';
+    src: url('../../../../wp-includes/fonts/gothic.eot');
+    src: url('../../../../wp-includes/fonts/gothicb.eot') format('embedded-opentype'),
+    url('../../../../wp-includes/fonts/gothicb.woff') format('woff'),
+    url('../../../../wp-includes/fonts/gothicb.ttf') format('truetype'),
+    url('../../../../wp-includes/fonts/gothicb.svg#CenturyGothicBold') format('svg');
+}
+
+@font-face {
+    font-family: 'CenturyGothicBoldItalic';
+    src: url('../../../../wp-includes/fonts/gothicbi.eot');
+    src: url('../../../../wp-includes/fonts/gothicbi.eot') format('embedded-opentype'),
+    url('../../../../wp-includes/fonts/gothicbi.woff') format('woff'),
+    url('../../../../wp-includes/fonts/gothicbi.ttf') format('truetype'),
+    url('../../../../wp-includes/fonts/gothicbi.svg#CenturyGothicBoldItalic') format('svg');
+}
+
+@font-face {
+    font-family: 'CenturyGothicItalic';
+    src: url('../../../../wp-includes/fonts/gothici.eot');
+    src: url('../../../../wp-includes/fonts/gothici.eot') format('embedded-opentype'),
+    url('../../../../wp-includes/fonts/gothici.woff') format('woff'),
+    url('../../../../wp-includes/fonts/gothici.ttf') format('truetype'),
+    url('../../../../wp-includes/fonts/gothici.svg#CenturyGothicItalic') format('svg');
+}
 
 	/* body */
 	body {
