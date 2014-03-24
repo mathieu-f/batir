@@ -10,6 +10,7 @@
     left: 0;
     background: url('../images/background1-ter.jpg') #e1e1e1 repeat;
     background-size: cover;
+    background-position: center;
 }
 
 #wuc-wrapper a {
@@ -49,13 +50,13 @@
 
 #wuc-box h1,
 #wuc-box h2 {
-    color: #06c;
-    font-family: 'CenturyGothicBold', sans-serif;
+    color: #00339A;
+    font-family: 'CenturyGothicRegular', sans-serif;
+    font-weight: bold;
     margin-top: 0;
     margin-bottom: 0;
     padding-top: 0;
     padding-bottom: 0;
-   /* text-shadow: #fff 1px 1px, #fff -1px 1px, #fff -1px -1px, #fff 1px -1px;*/
 }
 
 #wuc-box h1 {
@@ -66,7 +67,7 @@
 }
 
 #wuc-box h2 {
-    font-size: 23px;
+    font-size: 24px;
 }
 
 #wuc-box h3 {
@@ -123,7 +124,7 @@
 }
 
 #btn_email {
-    background: url('../images/plus.png') no-repeat #06c;
+    background: url('../images/plus.png') no-repeat #00339A;
     display: block;
     outline: medium none;
     text-indent: -9000px;
