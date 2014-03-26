@@ -309,7 +309,7 @@ class RTTheme{
 		define('WPADMINURI', get_admin_url());
 		define('BLOGPAGE', get_option('rttheme_blog_page'));
 		define('PRODUCTPAGE', get_option('rttheme_product_list'));
-		define('PORTFOLIOTPAGE', get_option('rttheme_portf_page'));
+		define('PORTFOLIOPAGE', get_option('rttheme_portf_page'));
 		define('CONTACTPAGE', get_option('rttheme_contact_page'));
 		define('THEMESTYLE', get_option(THEMESLUG."_style"));
 

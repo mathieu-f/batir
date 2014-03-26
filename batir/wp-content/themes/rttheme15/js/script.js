@@ -56,10 +56,11 @@ jQuery(window).resize(function() { // description fix on window resize
 // Navigation Menu
 jQuery(document).ready(function (){  
   //Usage
-  jQuery("#navigation ul li").menu({
-  	autohide: 0,
-	autostartSpeed: 0
-  });
+	jQuery("#navigation ul li").menu({
+		autohide: 0,
+		autostart: 1,
+		autostartSpeed: 0
+	});
 });
 
  

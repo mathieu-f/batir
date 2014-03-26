@@ -218,7 +218,7 @@ class RT_Create_Sidebars{
 		if(is_theme_page()) dynamic_sidebar('sidebar-for-pages');
 
 		// Portfolio Sidebar - all portfolio contents
-		if( @$post->ID==PORTFOLIOTPAGE || get_query_var('taxonomy')=="portfolio_categories" || (is_single() && $post->post_type=='portfolio' )) dynamic_sidebar('sidebar-for-portfolio');
+		if( @$post->ID==PORTFOLIOPAGE || get_query_var('taxonomy')=="portfolio_categories" || (is_single() && $post->post_type=='portfolio' )) dynamic_sidebar('sidebar-for-portfolio');
 		
 		// Portfolio Sidebar - single portfolio item
 		if(is_single() && $post->post_type=='portfolio' ) dynamic_sidebar('sidebar-for-portfolios');
@@ -303,9 +303,10 @@ class RT_Create_Sidebars{
 		
 			//pages
 			if($postType == "pages"){
-				if($sidebar_pages){				  
+				if($sidebar_pages){				   
+
 					foreach($sidebar_pages as $k=>$v){
-						if($v==$postID){
+						if($v==wpml_page_id($postID)){ 
 							dynamic_sidebar($sidebar_id);
 						}
 					}
@@ -316,7 +317,7 @@ class RT_Create_Sidebars{
 			if($postType == "posts"){
 				if($sidebar_posts){
 					foreach($sidebar_posts as $k=>$v){
-						if($v==$postID){
+						if($v==wpml_post_id($postID)){
 							dynamic_sidebar($sidebar_id);
 						}
 					}
@@ -327,7 +328,7 @@ class RT_Create_Sidebars{
 			if($postType == "categories"){
 				if($sidebar_categories){
 					foreach($sidebar_categories as $k=>$v){
-						if($v==$postID){
+						if($v==wpml_category_id($postID)){
 							dynamic_sidebar($sidebar_id);
 						}
 					}
@@ -338,7 +339,7 @@ class RT_Create_Sidebars{
 			if($postType == "productcategories"){
 				if($sidebar_product_categories){ 
 					foreach($sidebar_product_categories as $k=>$v){
-						if($v==$postID){
+						if($v==wpml_product_category_id($postID)){
 							dynamic_sidebar($sidebar_id);
 						}
 					}

@@ -102,26 +102,45 @@ function get_pagination($range = 7){
 # checks page reserved for blog product or portfolio
 # 
 
-function is_theme_page(){
-    global $post;
-    
-    if($post->ID != BLOGPAGE && $post->ID !=PRODUCTPAGE && $post->ID !=PORTFOLIOTPAGE && is_page()){
-	   return true;
-    }
-    
-} 
+if( ! function_exists("is_theme_page") ){
+	function is_theme_page(){
+		global $post; 
+		
+		$post_id = is_object( $post ) ? wpml_page_id( $post->ID ) : "";
+
+		if( ! empty( $post_id )){	
+			if( $post_id != BLOGPAGE && $post_id != PRODUCTPAGE && $post_id != PORTFOLIOPAGE ){
+			   return false;
+			}else{
+				return true;
+			}
+		}else{
+			return false;
+		}
+	} 
+}
+
 
 #
 # checks theme parts that reserved for blog
 # 
+if( ! function_exists("is_blog_page") ){
+	function is_blog_page(){
 
-function is_blog_page(){
-    global $post; 
-    
-	if($post->ID == BLOGPAGE || is_category() || is_single() && $post->post_type!='products' && $post->post_type!='portfolio'  ){
-	    return true;
-	} 
+		global $taxonomy, $post_type, $post, $templateID; 
+	 
+		$post_id = is_object( $post ) ? wpml_page_id( $post->ID ) : "";
+
+		if( BLOGPAGE != "" && $post_id == BLOGPAGE ){
+			return true;
+		}	
+
+		if( $taxonomy == "category" || $post_type == 'post' ){
+			return true;
+		}					
+	}
 }
+
 
 #
 # gets orginal paths of images when multi site mode active

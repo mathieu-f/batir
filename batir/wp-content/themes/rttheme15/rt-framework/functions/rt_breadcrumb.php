@@ -51,13 +51,13 @@ function rt_breadcrumb(){
 		
 		//start page parents
 		$get_start_page=get_page($start_page);
-		if ($get_start_page -> post_parent){
-			page_parents( $get_start_page -> post_parent,''); 
+		if ($get_start_page->post_parent){
+			page_parents( $get_start_page->post_parent,''); 
 		}
 		
 		//start page
 		if ($start_page && !get_query_var('lang')) {
-			echo  $delimiter."<a href=\"".get_permalink($start_page)."\" title=\"". get_the_title($start_page) ."\" >". get_the_title($start_page) ."</a>";
+			echo  $delimiter."<a href=\"".get_permalink(wpml_page_id($start_page,"get_translation"))."\" title=\"". get_the_title(wpml_page_id($start_page,"get_translation")) ."\" >". get_the_title(wpml_page_id($start_page,"get_translation")) ."</a>";
 		}
 	}
 
@@ -92,8 +92,8 @@ function rt_breadcrumb(){
 	//Pages
 	if ( is_page() ){
 		//parent pages
-		if ($post -> post_parent){
-			page_parents( $post -> post_parent,''); 
+		if ($post->post_parent){
+			page_parents( $post->post_parent,''); 
 		} 
 		 
 		//current page

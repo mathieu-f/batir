@@ -4,7 +4,6 @@
 */
 get_header(); 
 ?>
- 
 
 	<!-- slider -->
 	<?php if(get_option(THEMESLUG."_slider_active") && is_front_page()){	//if slider active and is front page

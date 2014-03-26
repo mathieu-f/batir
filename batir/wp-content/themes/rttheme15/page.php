@@ -60,7 +60,7 @@
 		#
 		#  Contact Page     
 		#
-		if($post->ID == wpml_page_id(CONTACTPAGE)){
+		if($post->ID == wpml_page_id(CONTACTPAGE, $purpose = "get_translation")){
 			
 			get_template_part( 'contact_us', 'contact_page' );
 		}
@@ -70,7 +70,7 @@
 		#
 		#  Blog Start Page     
 		#
-		if($post->ID == wpml_page_id(BLOGPAGE)){
+		if($post->ID == wpml_page_id(BLOGPAGE, $purpose = "get_translation")){
 			//blog cats
 			if(get_option('rttheme_blog_ex_cat[]')){
 				$blog_cats=implode(unserialize(get_option('rttheme_blog_ex_cat[]')),",");
@@ -102,15 +102,15 @@
 		#  Portfolio Start Page     
 		#
 		 
-		if($post->ID == wpml_page_id(PORTFOLIOTPAGE) && get_option(THEMESLUG.'_portf_first_page_hide')){ 
+		if($post->ID == wpml_page_id(PORTFOLIOPAGE, $purpose = "get_translation") && get_option(THEMESLUG.'_portf_first_page_hide')){ 
 	
 			if (get_query_var('paged') ) {$paged = get_query_var('paged');} elseif ( get_query_var('page') ) {$paged = get_query_var('page');} else {$paged = 1;}
 			$args=array(
-			    'post_status'		=>	'publish',
+			    'post_status'	=>	'publish',
 			    'post_type'		=>	'portfolio',
-			    'orderby'			=>	get_option('rttheme_portf_list_orderby'),
+			    'orderby'		=>	get_option('rttheme_portf_list_orderby'),
 			    'order'			=>	get_option('rttheme_portf_list_order'),
-			    'posts_per_page'	=>	get_option('rttheme_portf_pager'), 
+			    'posts_per_page'=>	get_option('rttheme_portf_pager'), 
 			    'paged'=>$paged
 			);
 
@@ -124,8 +124,8 @@
 					'tax_query' => array(
 						array(
 							'taxonomy'	=>	'portfolio_categories',
-							'field' 		=>	'id',
-							'terms' 		=>	$rttheme_portf_start_cat
+							'field' 	=>	'id',
+							'terms' 	=>	$rttheme_portf_start_cat
 						)
 					)
 				);
@@ -142,15 +142,15 @@
 		#  Product Start Page     
 		#
 		
-		if($post->ID == wpml_page_id(PRODUCTPAGE) && get_option(THEMESLUG.'_products_first_page_hide')){ 
+		if($post->ID == wpml_page_id(PRODUCTPAGE, $purpose = "get_translation") && get_option(THEMESLUG.'_products_first_page_hide')){ 
 	
 			if (get_query_var('paged') ) {$paged = get_query_var('paged');} elseif ( get_query_var('page') ) {$paged = get_query_var('page');} else {$paged = 1;}
 			$args=array(
-			    'post_status'		=>	'publish',
+			    'post_status'	=>	'publish',
 			    'post_type'		=>	'products',
-			    'orderby'			=>	get_option('rttheme_product_list_orderby'),
+			    'orderby'		=>	get_option('rttheme_product_list_orderby'),
 			    'order'			=>	get_option('rttheme_product_list_order'),
-			    'posts_per_page'	=>	get_option('rttheme_product_list_pager'), 
+			    'posts_per_page'=>	get_option('rttheme_product_list_pager'), 
 			    'paged'=>$paged
 			);
 
@@ -164,14 +164,14 @@
 					'tax_query' => array(
 						array(
 							'taxonomy'	=>	'product_categories',
-							'field' 		=>	'id',
-							'terms' 		=>	$rttheme_product_start_cat
+							'field' 	=>	'id',
+							'terms' 	=>	$rttheme_product_start_cat
 						)
 					)
 				);
 				$args = array_merge($args, $args2);
-			}
-	
+			} 
+			
 			get_template_part( 'product_loop', 'product_categories');
 		}
 		?> 

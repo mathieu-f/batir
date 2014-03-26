@@ -6,7 +6,7 @@
 <?php 
 global $responsive_design;
 if ($responsive_design):?>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, text-size=normal">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, text-size=normal" />
 <?php endif;?>
  
 <?php if (get_option( 'rttheme_favicon_url')):?><link rel="icon" type="image/png" href="<?php echo get_option( 'rttheme_favicon_url');?>"><?php endif;?>

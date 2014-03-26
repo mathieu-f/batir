@@ -5,12 +5,83 @@
 #-----------------------------------------
 
 
+
 #
 # WPML match page id
 #
-function wpml_page_id($id){
+function wpml_page_id($id, $purpose = "" ){	 
 	if(function_exists('icl_object_id')) {
-		return icl_object_id($id,'page',true);
+		global $sitepress;
+
+		/*
+		*	use ICL_LANGUAGE_CODE to to find translation of current page 
+		*	$sitepress->get_default_language() to find orginal page of the current page
+		*/ 
+			 
+		if ( $purpose == "get_translation" ){
+			$language_code = ICL_LANGUAGE_CODE; 
+		}else{
+			$language_code = $sitepress->get_default_language();
+		}
+
+		return icl_object_id($id,'page',true, $language_code);
+	} else {
+		return $id;
+	}
+}
+
+#
+# WPML match post id
+#
+function wpml_post_id($id){
+	if(function_exists('icl_object_id')) {
+		global $sitepress, $post;
+		$get_default_language =  $sitepress->get_default_language();
+		$post_type = isset( $post->post_type ) ? $post->post_type : "post" ; 
+		return icl_object_id($id,$post_type,true,$get_default_language);
+	} else {
+		return $id;
+	}
+}
+
+#
+# WPML match category id
+#
+function wpml_category_id($id){
+	if(function_exists('icl_object_id')) {
+		global $sitepress;
+		$get_default_language =  $sitepress->get_default_language();
+
+		return icl_object_id($id,'category',true,$get_default_language);
+	} else {
+		return $id;
+	}
+}
+
+
+#
+# WPML match product category id
+#
+function wpml_product_category_id($id){
+	if(function_exists('icl_object_id')) {
+		global $sitepress;
+		$get_default_language =  $sitepress->get_default_language();
+
+		return icl_object_id($id,'product_categories',true,$get_default_language);
+	} else {
+		return $id;
+	}
+}
+
+#
+# WPML match portfolio category id
+#
+function wpml_portfolio_category_id($id){
+	if(function_exists('icl_object_id')) {
+		global $sitepress;
+		$get_default_language =  $sitepress->get_default_language();
+
+		return icl_object_id($id,'portfolio_categories',true,$get_default_language);
 	} else {
 		return $id;
 	}
@@ -22,9 +93,12 @@ function wpml_page_id($id){
 #
 function wpml_lang_object_ids($ids_array, $type) {
 	if(function_exists('icl_object_id')) {
+		global $sitepress;
+		$get_default_language =  ICL_LANGUAGE_CODE;
+
 		$res = array();
 		foreach ($ids_array as $id) {
-			$xlat = icl_object_id($id,$type,false);
+			$xlat = icl_object_id($id,$type,false,$get_default_language);
 			if(!is_null($xlat)) $res[] = $xlat;
 		}
 		return $res;
@@ -32,7 +106,6 @@ function wpml_lang_object_ids($ids_array, $type) {
 		return $ids_array;
 	}
 }
-
 
 #
 # Get WPML Plugin Flags

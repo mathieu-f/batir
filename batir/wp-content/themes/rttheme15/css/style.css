@@ -5,11 +5,8 @@
 	Created By: Tolga Can
 	http://themeforest.net/user/stmcan
 
-------------------------------------------------------- */  
-
-/* ----------------------------------------------------
-	GLOBAL STRUCTURE
 ------------------------------------------------------- */
+
 @font-face {
     font-family: 'CenturyGothicRegular';
     src: url('../../../../wp-includes/fonts/gothic.eot');
@@ -45,6 +42,11 @@
     url('../../../../wp-includes/fonts/gothici.ttf') format('truetype'),
     url('../../../../wp-includes/fonts/gothici.svg#CenturyGothicItalic') format('svg');
 }
+
+
+/* ----------------------------------------------------
+	GLOBAL STRUCTURE
+------------------------------------------------------- */
 
 	/* body */
 	body {
