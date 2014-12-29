@@ -1,78 +1,44 @@
 <?php
 // Direct calls to this file are Forbidden when core files are not present
-if ( !current_user_can('manage_options') ){ 
+if ( !current_user_can('manage_options') ) { 
 		header('Status: 403 Forbidden');
 		header('HTTP/1.1 403 Forbidden');
 		exit();
 }
 ?>
 
-<div class="wrap">
-<div id="bpsUprade"><strong>
-<a href="http://www.ait-pro.com/bulletproof-security-pro-flash/bulletproof.html" target="_blank" title="BulletProof Security Pro Flash Movie">Upgrade to BulletProof Security Pro</a></strong></div>
-
-<!-- Begin Rating CSS - needs to be inline to load on first launch -->
-<style type="text/css">
-div.bps-star-container { float:right; position: relative; top:-10px; right:-100px; height:19px; width:100px; font-size:19px;}
-div.bps-star {height: 100%; position:absolute; top:0px; left:0px; background-color: transparent; letter-spacing:1ex; border:none;}
-.bps-star1 {width:20%;} .bps-star2 {width:40%;} .bps-star3 {width:60%;} .bps-star4 {width:80%;} .bps-star5 {width:100%;}
-.bps-star.bps-star-rating {background-color: #fc0;}
-.bps-star img{display:block; position:absolute; right:0px; border:none; text-decoration:none;}
-div.bps-star img {width:19px; height:19px; border-left:1px solid #fff; border-right:1px solid #fff;}
-.bps-downloaded {float:right; position: relative; top:15px; right:0px; }
-.bps-star-link {position: relative; top:43px; right:0px; font-size:12px;}
-</style>
-<!-- End Rating CSS - needs to be inline to load on first launch -->
+<div class="wrap" style="margin-top:45px;">
 
 <?php
-if (function_exists('get_transient')) {
+if ( function_exists('get_transient') ) {
 require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if (false === ($bpsapi = get_transient('bulletproof-security_info'))) {
-		$bpsapi = plugins_api('plugin_information', array('slug' => stripslashes( 'bulletproof-security' ) ));
-	
-	if ( !is_wp_error($bpsapi) ) {
-		$bpsexpire = 60 * 15; // Cache data for 15 minutes
-		set_transient('bulletproof-security_info', $bpsapi, $bpsexpire);
+	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+		
+	if ( !is_wp_error( $bps_api ) ) {
+		$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+		$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+		maybe_serialize( $bps_downloaded );
+		set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
 	}
 	}
-  
-	if ( !is_wp_error($bpsapi) ) {
-		$plugins_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
-								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
-								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
-	//Sanitize HTML
-	foreach ( (array)$bpsapi->sections as $section_name => $content )
-		$bpsapi->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
-	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
-		$bpsapi->$key = wp_kses($bpsapi->$key, $plugins_allowedtags);
 
-	  if ( !empty($bpsapi->downloaded) ) {
-        echo '<div class="bps-downloaded">'.sprintf(__('%s Downloads', 'bulletproof-security'),number_format_i18n($bpsapi->downloaded)).'</div>';
-      }
-?>
-		<?php if ( !empty($bpsapi->rating) ) : ?>
-		<div class="bps-star-container" title="<?php //echo esc_attr(sprintf(__('Average Rating (%s ratings)', 'bulletproof-security'),number_format_i18n($bpsapi->num_ratings))); ?>">
-			<div class="bps-star bps-star-rating" style="width: <?php echo esc_attr($bpsapi->rating) ?>px"></div>
-			<div class="bps-star bps-star5"><img src="<?php echo plugins_url('/bulletproof-security/admin/images/star.png'); ?>" alt="<?php _e('5 stars', 'bulletproof-security') ?>" /></div>
-			<div class="bps-star bps-star4"><img src="<?php echo plugins_url('/bulletproof-security/admin/images/star.png'); ?>" alt="<?php _e('4 stars', 'bulletproof-security') ?>" /></div>
-			<div class="bps-star bps-star3"><img src="<?php echo plugins_url('/bulletproof-security/admin/images/star.png'); ?>" alt="<?php _e('3 stars', 'bulletproof-security') ?>" /></div>
-			<div class="bps-star bps-star2"><img src="<?php echo plugins_url('/bulletproof-security/admin/images/star.png'); ?>" alt="<?php _e('2 stars', 'bulletproof-security') ?>" /></div>
-			<div class="bps-star bps-star1"><img src="<?php echo plugins_url('/bulletproof-security/admin/images/star.png'); ?>" alt="<?php _e('1 star', 'bulletproof-security') ?>" /></div>
+		$bps_transient = get_transient( 'bulletproof-security_info' );
+    	
+		echo '<div class="bps-star-container" style="float:right;position:relative;top:-40px;left:0px;margin:0px 0px -40px 0px;font-weight:bold;">';
+		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
+		echo '<div class="bps-downloaded">';
 		
-        <div class="bps-star-link"><a target="_blank" title="Link opens in new browser window" href="http://wordpress.org/extend/plugins/<?php echo $bpsapi->slug ?>/"> <?php _e('Rate BPS', 'bulletproof-security'); ?></a> <small><?php //echo sprintf(__('%s Ratings', 'bulletproof-security'),number_format_i18n($bpsapi->num_ratings)); ?> </small></div>
-        
-        </div>
+		foreach ( $bps_transient as $key => $value ) {
+			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+		}
 		
-        <br />
-		<?php endif; 
-	  } // if ( !is_wp_error($bpsapi)
- }// end if (function_exists('get_transient'
+		echo '<div class="bps-star-link"><a href="http://wordpress.org/support/view/plugin-reviews/bulletproof-security" target="_blank" title="Add your own BPS Plugin Review">'.__('Add a Review', 'bulletproof-security').'</a><br><a href="http://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
+		echo '</div>';
+		echo '</div>';
+}
 ?>
-
 
 <h2 style="margin-left:70px;"><?php _e('BulletProof Security ~ Security Log', 'bulletproof-security'); ?></h2>
 <div id="message" class="updated" style="border:1px solid #999999; margin-left:70px;background-color: #000;">
@@ -88,7 +54,7 @@ bps_delete_language_files();
 
 // General all purpose "Settings Saved." message for forms
 if ( current_user_can('manage_options') && wp_script_is( 'bps-js', $list = 'queue' ) ) {
-if ( @$_GET['settings-updated'] == true) {
+if ( @$_GET['settings-updated'] == true ) {
 	$text = '<p style="background-color:#ffffe0;font-size:1em;font-weight:bold;padding:5px;margin:0px;"><font color="green"><strong>'.__('Settings Saved', 'bulletproof-security').'</strong></font></p>';
 	echo $text;
 	}
@@ -106,7 +72,7 @@ $bps_topDiv = '<div id="message" class="updated" style="background-color:#ffffe0
 $bps_bottomDiv = '</p></div>';
 
 // Form - Security Log page - Turn Error Logging Off
-if (isset($_POST['Submit-Error-Log-Off']) && current_user_can('manage_options')) {
+if ( isset( $_POST['Submit-Error-Log-Off'] ) && current_user_can('manage_options') ) {
 	check_admin_referer( 'bps-error-log-off' );
 
 $AutoLockoptions = get_option('bulletproof_security_options_autolock');	
@@ -118,22 +84,28 @@ $pattern1 = '/#ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s';
 $pattern2 = '/ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s';
 $bps_get_wp_root_secure = bps_wp_get_root_folder();		
 	
+	// need to get the $lock value first because permissions are cached
+	if 	( file_exists($filename) && @$permsHtaccess == '0404' ) {
+		$lock = '0404';			
+	}
+
 	if ( file_exists($filename) && preg_match($pattern1, $stringReplace, $matches) ) {
 		
-		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777') { // Windows IIS, XAMPP, etc
+		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777' ) { // Windows IIS, XAMPP, etc
 			@chmod($filename, 0644);
 		}		
 		
 		$stringReplace = preg_replace('/#ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s', "ErrorDocument 400 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/400.php\n#ErrorDocument 401 default\n#ErrorDocument 403 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/403.php\n#ErrorDocument 404 $bps_get_wp_root_secure"."404.php", $stringReplace);
 		
-		if ( !file_put_contents($filename, $stringReplace) ) {
+		if ( ! file_put_contents($filename, $stringReplace) ) {
 			echo $bps_topDiv;
-			$text = '<font color="red"><strong>'.__('Error: Unable to turn Error Logging Off. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
+			$text = '<font color="red"><strong>'.__('Error: Unable to turn Logging Off. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
 			echo $text;
 			echo $bps_bottomDiv;
+		
 		} else {
 			
-			if ( @$permsHtaccess == '0644' && @substr($sapi_type, 0, 6) != 'apache' && $AutoLockoptions['bps_root_htaccess_autolock'] != 'Off') {			
+			if ( $lock == '0404' || $AutoLockoptions['bps_root_htaccess_autolock'] == 'On' ) {			
 				@chmod($filename, 0404);
 			}			
 		}
@@ -141,25 +113,26 @@ $bps_get_wp_root_secure = bps_wp_get_root_folder();
 
 	if ( file_exists($filename) && preg_match($pattern2, $stringReplace, $matches) ) {
 		
-		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777') { // Windows IIS, XAMPP, etc
+		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777' ) { // Windows IIS, XAMPP, etc
 			@chmod($filename, 0644);
 		}		
 
 		$stringReplace = preg_replace('/ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s', "#ErrorDocument 400 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/400.php\n#ErrorDocument 401 default\n#ErrorDocument 403 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/403.php\n#ErrorDocument 404 $bps_get_wp_root_secure"."404.php", $stringReplace);
 		
-		if ( !file_put_contents($filename, $stringReplace) ) {
+		if ( ! file_put_contents($filename, $stringReplace) ) {
 			echo $bps_topDiv;
-			$text = '<font color="red"><strong>'.__('Error: Unable to turn Error Logging Off. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
+			$text = '<font color="red"><strong>'.__('Error: Unable to turn Logging Off. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
 			echo $text;
 			echo $bps_bottomDiv;
+		
 		} else {
 			
-			if ( @$permsHtaccess == '0644' && @substr($sapi_type, 0, 6) != 'apache' && $AutoLockoptions['bps_root_htaccess_autolock'] != 'Off') {			
+			if ( $lock == '0404' || $AutoLockoptions['bps_root_htaccess_autolock'] == 'On' ) {		
 				@chmod($filename, 0404);
 			}	
 
 			echo $bps_topDiv;
-			$text = '<p><font color="green"><strong>'.__('Error Logging has been turned Off', 'bulletproof-security').'</strong></font></p>';
+			$text = '<p><font color="green"><strong>'.__('Logging has been turned Off', 'bulletproof-security').'</strong></font></p>';
 			echo $text;		
 			echo $bps_bottomDiv;
 		}
@@ -167,7 +140,7 @@ $bps_get_wp_root_secure = bps_wp_get_root_folder();
 }
 
 // Form - Security Log page - Turn Error Logging On
-if (isset($_POST['Submit-Error-Log-On']) && current_user_can('manage_options')) {
+if ( isset( $_POST['Submit-Error-Log-On'] ) && current_user_can('manage_options') ) {
 	check_admin_referer( 'bps-error-log-on' );
 
 $AutoLockoptions = get_option('bulletproof_security_options_autolock');	
@@ -180,29 +153,35 @@ $pattern2 = '/#ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s';
 $bps_get_wp_root_secure = bps_wp_get_root_folder();
 $htaccessARQ = WP_CONTENT_DIR . '/bps-backup/autorestore/root-files/auto_.htaccess';
 	
+	// need to get the $lock value first because permissions are cached
+	if 	( file_exists($filename) && @$permsHtaccess == '0404' ) {
+		$lock = '0404';			
+	}	
+	
 	// This factors in the scenario of #ErrorDocument 403 being commented out if other ErrorDocument directives are NOT commented out
 	// Create a new ErrorDocument .htaccess block of code with all ErrorDocument directives uncommented
 	if ( file_exists($filename) && preg_match($pattern1, $stringReplace, $matches) ) {
 		
-		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777') { // Windows IIS, XAMPP, etc
+		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777' ) { // Windows IIS, XAMPP, etc
 			@chmod($filename, 0644);
 		}	
 
 		$stringReplace = preg_replace('/ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s', "ErrorDocument 400 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/400.php\nErrorDocument 401 default\nErrorDocument 403 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/403.php\nErrorDocument 404 $bps_get_wp_root_secure"."404.php", $stringReplace);		
 		
-		if ( !file_put_contents($filename, $stringReplace) ) {		
+		if ( ! file_put_contents($filename, $stringReplace) ) {		
 			echo $bps_topDiv;
-			$text = '<font color="red"><strong>'.__('Error: Unable to turn Error Logging On. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
+			$text = '<font color="red"><strong>'.__('Error: Unable to turn Logging On. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
 			echo $text;
 			echo $bps_bottomDiv;
+		
 		} else {
 			
-			if ( @$permsHtaccess == '0644' && @substr($sapi_type, 0, 6) != 'apache' && $AutoLockoptions['bps_root_htaccess_autolock'] != 'Off') {			
+			if ( $lock == '0404' || $AutoLockoptions['bps_root_htaccess_autolock'] == 'On' ) {		
 				@chmod($filename, 0404);
 			}			
 
 			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('Error Logging has been turned On', 'bulletproof-security').'</strong></font>';
+			$text = '<font color="green"><strong>'.__('Logging has been turned On', 'bulletproof-security').'</strong></font>';
 			echo $text;	
 			echo $bps_bottomDiv;
 		}
@@ -210,20 +189,20 @@ $htaccessARQ = WP_CONTENT_DIR . '/bps-backup/autorestore/root-files/auto_.htacce
 	
 	if ( file_exists($filename) && preg_match($pattern2, $stringReplace, $matches) ) {
 		
-		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777') { // Windows IIS, XAMPP, etc
+		if ( @substr($sapi_type, 0, 6) != 'apache' || @$permsHtaccess != '0666' || @$permsHtaccess != '0777' ) { // Windows IIS, XAMPP, etc
 			@chmod($filename, 0644);
 		}
 		
 		$stringReplace = preg_replace('/#ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s', "ErrorDocument 400 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/400.php\nErrorDocument 401 default\nErrorDocument 403 $bps_get_wp_root_secure"."$bps_plugin_dir/bulletproof-security/403.php\nErrorDocument 404 $bps_get_wp_root_secure"."404.php", $stringReplace);
 		
-		if ( !file_put_contents($filename, $stringReplace) ) {
+		if ( ! file_put_contents($filename, $stringReplace) ) {
 			echo $bps_topDiv;
-			$text = '<font color="red"><strong>'.__('Error: Unable to turn Error Logging On. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
+			$text = '<font color="red"><strong>'.__('Error: Unable to turn Logging On. Either the root .htaccess file is not writable, it does not exist or the ErrorDocument .htaccess code does not exist in your Root .htaccess file. Check that the root .htaccess file exists, the code exists and that file permissions allow writing.', 'bulletproof-security').'</strong></font>';
 			echo $text;
 			echo $bps_bottomDiv;
 		} else {
 			
-			if ( @$permsHtaccess == '0644' && @substr($sapi_type, 0, 6) != 'apache' && $AutoLockoptions['bps_root_htaccess_autolock'] != 'Off') {			
+			if ( $lock == '0404' || $AutoLockoptions['bps_root_htaccess_autolock'] == 'On' ) {	
 				@chmod($filename, 0404);
 			}				
 		}
@@ -243,7 +222,7 @@ $htaccessARQ = WP_CONTENT_DIR . '/bps-backup/autorestore/root-files/auto_.htacce
 		</ul>
             
 <div id="bps-tabs-1" class="bps-tab-page">
-<h2><?php _e('Blocked Hackers, Spammers, Scrapers, Bots Logged ~ HTTP Errors Logged', 'bulletproof-security'); ?></h2>
+<h2><?php _e('Security Log ~ ', 'bulletproof-security'); ?><span style="font-size:.75em;"><?php _e('Logs Blocked Hackers, Spammers, Scrapers, Bots, etc ~ HTTP 400, 403 & 404 Logging ~ Troubleshooting Tool', 'bulletproof-security'); ?></span></h2>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bps-help_faq_table">
   <tr>
@@ -252,36 +231,10 @@ $htaccessARQ = WP_CONTENT_DIR . '/bps-backup/autorestore/root-files/auto_.htacce
   <tr>
     <td class="bps-table_cell_help">
 
-<h3><?php _e('Security Log / HTTP Error Log', 'bulletproof-security'); ?>  <button id="bps-open-modal9" class="bps-modal-button"><?php _e('Read Me', 'bulletproof-security'); ?></button></h3>
+<h3><?php _e('Security Log', 'bulletproof-security'); ?>  <button id="bps-open-modal9" class="bps-modal-button"><?php _e('Read Me', 'bulletproof-security'); ?></button></h3>
 
-<div id="bps-modal-content9" title="<?php _e('Security Log / HTTP Error Log', 'bulletproof-security'); ?>">
-	<p><?php $text = '<strong>'.__('This Read Me Help window is draggable (top) and resizable (bottom right corner)', 'bulletproof-security').'</strong><br><br><strong>'.__('Security Log General Information', 'bulletproof-security').'</strong><br>'.__('Your Security Log file is a plain text static file and not a dynamic file or dynamic display to keep your website resource usage at a bare minimum and keep your website performance at a maximum. Log entries are logged in descending order by Date and Time. You can copy, edit and delete this plain text file.', 'bulletproof-security').'<br><br><strong>'.__('NOTE: BPS Pro Login Security & Security Log email alerting & Log File options are located in S-Monitor BPS Pro Email Alerting & Log File Options instead of being on the Login Security page & the Security Log pages.', 'bulletproof-security').'</strong><br>'.__('If you upgrade to BPS Pro from BPS Free your option settings will be saved. Your Login Security Database table and rows will also be saved. The Email Alerts & Log Files Options Form is identical on the Login Security & Security Log page in BPS free. You can change and save your email alerting and log file options on either page.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('If a particular User Agent/Bot is generating excessive log entries you can add it to Add User Agents/Bots to Ignore/Not Log tool and that User Agent/Bot will no longer be logged. See the Ignoring/Not Logging User Agents/Bots help section.', 'bulletproof-security').'<br><br>'.__('The Security Log logs 400 and 403 HTTP Response Status Codes by default. You can also log 404 HTTP Response Status Codes by opening this BPS 404 Template file - /bulletproof-security/404.php and copying the logging code into your Theme\'s 404 Template file. When you open the BPS Pro 404.php file you will see simple instructions on how to add the 404 logging code to your Theme\'s 404 Template file.', 'bulletproof-security').'<br><br><strong>'.__('HTTP Response Status Codes', 'bulletproof-security').'</strong><br>'.__('400 Bad Request - The request could not be understood by the server due to malformed syntax.', 'bulletproof-security').'<br><br>'.__('403 Forbidden - The Server understood the request, but is refusing to fulfill it.', 'bulletproof-security').'<br><br>'.__('404 Not Found - The server has not found anything matching the Request-URI / URL. No indication is given of whether the condition is temporary or permanent.', 'bulletproof-security').'<br><br><strong>'.__('Security Log File Size', 'bulletproof-security').'</strong><br>'.__('Displays the size of your Security Log file. 500KB is the optimum recommended log file size setting that you should choose for your log file to be automatically zipped, emailed and replaced with a new blank Security Log file.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Status:', 'bulletproof-security').'</strong><br>'.__('Displays whether your Security Log / Error Log is turned On or Off.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Last Modified Time:', 'bulletproof-security').'</strong><br>'.__('Displays the last time a Security Log entry was logged.', 'bulletproof-security').'<br><br><strong>'.__('Turn Off Error Logging button', 'bulletproof-security').'</strong><br>'.__('Turns off Error Logging.', 'bulletproof-security').'<br><br><strong>'.__('Turn On Error Logging button', 'bulletproof-security').'</strong><br>'.__('Turns On Error Logging.', 'bulletproof-security').'<br><br><strong>'.__('Delete Log Button', 'bulletproof-security').'</strong><br>'.__('Clicking the Delete Log button will delete the entire contents of your Security Log File.', 'bulletproof-security').'<br><br><strong>'.__('Ignoring/Not Logging User Agents/Bots - Allowing/Logging User Agents/Bots', 'bulletproof-security').'</strong><br>'.__('Adding or Removing User Agents/Bots adds or removes User Agents/Bots to your Database and also writes new code to the 403.php Security Logging template. The 403.php Security Logging file is where the check occurs whether or not to log or not log a User Agent/Bot. It would be foolish and costly to website performance to have your WordPress database handle the task/function/burden of checking which User Agents/Bots to log or not log. WordPress database queries are the most resource draining function of a WordPress website. The more database queries that are happening at the same time on your website the slower your website will perform and load. For this reason the Security Logging check is done from code in the 403.php Security Logging file.', 'bulletproof-security').'<br><br>'.__('If a particular User Agent/Bot is being logged excessively in your Security Log file you can Ignore/Not Log that particular User Agent/Bot based on the HTTP_USER_AGENT string in your Security Log. Example User Agent strings: Mozilla/5.0 (compatible; 008/0.85; http://www.80legs.com/webcrawler.html) Gecko/2008032620 and facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php). You could enter 008 or 80legs or webcrawler to Ignore/Not Log the 80legs User Agent/Bot. You could enter facebookexternalhit or facebook or externalhit_uatext to Ignore/Not Log the facebook User Agent/Bot.', 'bulletproof-security').'<br><br><strong>'.__('Add User Agents/Bots to Ignore/Not Log', 'bulletproof-security').'</strong><br>'.__('Add the User Agent/Bot names you would like to Ignore/Not Log in your Security Log.', 'bulletproof-security').'<br><br><strong>'.__('Removing User Agents/Bots to Allow/Log', 'bulletproof-security').'</strong><br>'.__('To search for ALL User Agents/Bots to remove/delete from your database leave the text box blank and click the Remove / Allow button. You will see a Dynamically generated Radio Button Form that will display the User Agents/Bots in the BPS User Agent/Bot database Table, Remove or Do Not Remove Radio buttons and the Timestamp when the User Agent/Bot was added to your DB. Select the Remove Radio buttons for the User Agents/Bots you want to remove/delete from your database and click the Remove button. Removing/deleting User Agents/Bots from your database means that you want to have these User Agents/Bots logged again in your Security/HTTP Error Log.', 'bulletproof-security'); echo $text; ?></p>
-</div>
-
-<div id="SecurityLogTable" style="position:relative; top:0px; left:0px; margin:15px 0px 15px -3px;">
-
-<table width="500" border="0">
-  <tr>
-    <td>
-<form name="BPSErrorLogOff" action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
-<?php wp_nonce_field('bps-error-log-off'); ?>
-<input type="submit" name="Submit-Error-Log-Off" value="<?php esc_attr_e('Turn Off Error Logging', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Click OK to Turn Off Error Logging or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
-</form>
-</td>
-    <td>
-<form name="BPSErrorLogOn" action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
-<?php wp_nonce_field('bps-error-log-on'); ?>
-<input type="submit" name="Submit-Error-Log-On" value="<?php esc_attr_e('Turn On Error Logging', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Click OK to Turn On Error Logging or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
-</form>
-</td>
-    <td>
-<form name="DeleteLogForm" action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
-<?php wp_nonce_field('bps-delete-security-log'); ?>
-<input type="submit" name="Submit-Delete-Log" value="<?php esc_attr_e('Delete Log', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Clicking OK will delete the contents of your Security Log file.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('Click OK to Delete the Log file contents or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
-</form>
-</td>
-  </tr>
-</table>
+<div id="bps-modal-content9" title="<?php _e('Security Log', 'bulletproof-security'); ?>">
+	<p><?php $text = '<strong>'.__('This Read Me Help window is draggable (top) and resizable (bottom right corner)', 'bulletproof-security').'</strong><br><br><strong>'.__('Security Log General Information', 'bulletproof-security').'</strong><br>'.__('Your Security Log file is a plain text static file and not a dynamic file or dynamic display to keep your website resource usage at a bare minimum and keep your website performance at a maximum. Log entries are logged in descending order by Date and Time. You can copy, edit and delete this plain text file.', 'bulletproof-security').'<br><br><strong>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('Email Alerting and Log file options are located in S-Monitor in BPS Pro instead of being on the Login Security page, Security Log & DB Backup Log pages. The Email Alerting & Log File Options Form is identical on the Login Security, Security Log & DB Backup Log pages in BPS free. You can change and save your email alerting and log file options on any of these pages.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('If a particular User Agent/Bot is generating excessive log entries you can add it to Add User Agents/Bots to Ignore/Not Log tool and that User Agent/Bot will no longer be logged. See the Ignoring/Not Logging User Agents/Bots help section.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('BPS logs all 403 errors, but a 403 error may not necessarily be caused by BPS. Use the troubleshooting steps in this link: http://forum.ait-pro.com/forums/topic/read-me-first-free/#bps-free-general-troubleshooting to confirm or eliminate that the 403 error is being caused by BPS.', 'bulletproof-security').'<br><br>'.__('The Security Log logs 400 and 403 HTTP Response Status Codes by default. You can also log 404 HTTP Response Status Codes by opening this BPS 404 Template file - /bulletproof-security/404.php and copying the logging code into your Theme\'s 404 Template file. When you open the BPS Pro 404.php file you will see simple instructions on how to add the 404 logging code to your Theme\'s 404 Template file.', 'bulletproof-security').'<br><br><strong>'.__('HTTP Response Status Codes', 'bulletproof-security').'</strong><br>'.__('400 Bad Request - The request could not be understood by the server due to malformed syntax.', 'bulletproof-security').'<br><br>'.__('403 Forbidden - The Server understood the request, but is refusing to fulfill it.', 'bulletproof-security').'<br><br>'.__('404 Not Found - The server has not found anything matching the Request-URI / URL. No indication is given of whether the condition is temporary or permanent.', 'bulletproof-security').'<br><br><strong>'.__('Security Log File Size', 'bulletproof-security').'</strong><br>'.__('Displays the size of your Security Log file. 500KB is the optimum recommended log file size setting that you should choose for your log file to be automatically zipped, emailed and replaced with a new blank Security Log file.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Status:', 'bulletproof-security').'</strong><br>'.__('Displays either Logging is Turned On or Logging is Turned Off.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Last Modified Time:', 'bulletproof-security').'</strong><br>'.__('Displays the last time a Security Log entry was logged.', 'bulletproof-security').'<br><br><strong>'.__('Turn Off Logging', 'bulletproof-security').'</strong><br>'.__('Turns Off HTTP 400, 403 & 404 Security Logging.', 'bulletproof-security').'<br><br><strong>'.__('Turn On Logging', 'bulletproof-security').'</strong><br>'.__('Turns On HTTP 400, 403 & 404 Security Logging.', 'bulletproof-security').'<br><br><strong>'.__('Delete Log Button', 'bulletproof-security').'</strong><br>'.__('Clicking the Delete Log button will delete the entire contents of your Security Log File.', 'bulletproof-security').'<br><br><strong>'.__('Ignoring/Not Logging User Agents/Bots - Allowing/Logging User Agents/Bots', 'bulletproof-security').'</strong><br>'.__('Adding or Removing User Agents/Bots adds or removes User Agents/Bots to your Database and also writes new code to the 403.php Security Logging template. The 403.php Security Logging file is where the check occurs whether or not to log or not log a User Agent/Bot. It would be foolish and costly to website performance to have your WordPress database handle the task/function/burden of checking which User Agents/Bots to log or not log. WordPress database queries are the most resource draining function of a WordPress website. The more database queries that are happening at the same time on your website the slower your website will perform and load. For this reason the Security Logging check is done from code in the 403.php Security Logging file.', 'bulletproof-security').'<br><br>'.__('If a particular User Agent/Bot is being logged excessively in your Security Log file you can Ignore/Not Log that particular User Agent/Bot based on the HTTP_USER_AGENT string in your Security Log. Example User Agent strings: Mozilla/5.0 (compatible; 008/0.85; http://www.80legs.com/webcrawler.html) Gecko/2008032620 and facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php). You could enter 008 or 80legs or webcrawler to Ignore/Not Log the 80legs User Agent/Bot. You could enter facebookexternalhit or facebook or externalhit_uatext to Ignore/Not Log the facebook User Agent/Bot.', 'bulletproof-security').'<br><br><strong>'.__('Add User Agents/Bots to Ignore/Not Log', 'bulletproof-security').'</strong><br>'.__('Add the User Agent/Bot names you would like to Ignore/Not Log in your Security Log.', 'bulletproof-security').'<br><br><strong>'.__('Removing User Agents/Bots to Allow/Log', 'bulletproof-security').'</strong><br>'.__('To search for ALL User Agents/Bots to remove/delete from your database leave the text box blank and click the Remove / Allow button. You will see a Dynamically generated Radio Button Form that will display the User Agents/Bots in the BPS User Agent/Bot database Table, Remove or Do Not Remove Radio buttons and the Timestamp when the User Agent/Bot was added to your DB. Select the Remove Radio buttons for the User Agents/Bots you want to remove/delete from your database and click the Remove button. Removing/deleting User Agents/Bots from your database means that you want to have these User Agents/Bots logged again in your Security Log.', 'bulletproof-security'); echo $text; ?></p>
 </div>
 
 <?php
@@ -292,7 +245,7 @@ $filename = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 if ( @file_exists($filename) ) {
 	$logSize = filesize($filename);
 	
-	if ($logSize < 2097152) {
+	if ( $logSize < 2097152 ) {
  		$text = '<strong>'. __('Security Log File Size: ', 'bulletproof-security').'<font color="blue">'. round($logSize / 1024, 2) .' KB</font></strong><br>';
 		echo $text;
 	} else {
@@ -310,10 +263,10 @@ $check_string = file_get_contents($filename);
 $pattern = '/#ErrorDocument\s400(.*)ErrorDocument\s404\s(.*)\/404\.php/s';	
 
 	if ( file_exists($filename) && preg_match($pattern, $check_string, $matches) ) {
-		$text = '<strong>'.__('Security Log Status: ', 'bulletproof-security').'<font color="blue">'.__('Error Logging is Turned Off', 'bulletproof-security').'</font></strong><br>';
+		$text = '<strong>'.__('Security Log Status: ', 'bulletproof-security').'<font color="blue">'.__('Logging is Turned Off', 'bulletproof-security').'</font></strong><br>';
 		echo $text;
 	} else {
-		$text = '<strong>'.__('Security Log Status: ', 'bulletproof-security').'<font color="blue">'.__('Error Logging is Turned On', 'bulletproof-security').'</font></strong><br>';
+		$text = '<strong>'.__('Security Log Status: ', 'bulletproof-security').'<font color="blue">'.__('Logging is Turned On', 'bulletproof-security').'</font></strong><br>';
 		echo $text;		
 	}
 }
@@ -327,14 +280,14 @@ $filename = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 		$gmt_offset = get_option( 'gmt_offset' ) * 3600;
 		$timestamp = date_i18n(get_option('date_format').' - '.get_option('time_format'), @filemtime($filename) + $gmt_offset);
 
-	$text = '<strong>'. __('Security Log Last Modified Time: ', 'bulletproof-security').'<font color="blue">'.$timestamp.'</font></strong><br>';
+	$text = '<strong>'. __('Security Log Last Modified Time: ', 'bulletproof-security').'<font color="blue">'.$timestamp.'</font></strong><br><br>';
 	echo $text;
 	}
 }
 echo bps_getSecurityLogLastMod();
 
 // Delete Security Log
-if (isset($_POST['Submit-Delete-Log']) && current_user_can('manage_options')) {
+if ( isset( $_POST['Submit-Delete-Log'] ) && current_user_can('manage_options') ) {
 	check_admin_referer( 'bps-delete-security-log' );
 
 	$SecurityLog = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
@@ -344,11 +297,10 @@ if (isset($_POST['Submit-Delete-Log']) && current_user_can('manage_options')) {
 		$text = '<font color="green"><strong>'.__('Success! Your Security Log file has been deleted and replaced with a new blank Security Log file.', 'bulletproof-security').'</strong></font>';
 		echo $text;	
 		echo $bps_bottomDiv;
-
 }
 
 // Security Log Form - Add User Agents to DB and write them to the 403.php template
-if (isset($_POST['Submit-UserAgent-Ignore']) && current_user_can('manage_options')) {
+if ( isset( $_POST['Submit-UserAgent-Ignore'] ) && current_user_can('manage_options') ) {
 check_admin_referer( 'bulletproof_security_useragent_ignore' );   
 		
 $userAgent = trim(stripslashes($_POST['user-agent-ignore']));
@@ -370,7 +322,7 @@ $search = '';
 	} else {
 		
 		echo $bps_topDiv;
-		$text = '<font color="red"><strong>'.__('Error: ', 'bulletproof-security').$userAgent.__(' User Agent/Bot was not successfully added. Click the Blue Read Help button for examples of valid User Agent/Bot names.', 'bulletproof-security').'</strong></font>';
+		$text = '<font color="red"><strong>'.__('Error: ', 'bulletproof-security').$userAgent.__(' User Agent/Bot was not successfully added. Click the Read Help button for examples of valid User Agent/Bot names.', 'bulletproof-security').'</strong></font>';
 		echo $text;
 		echo $bps_bottomDiv;		
 	}
@@ -416,31 +368,46 @@ $search = '';
 }
 ?>
 
-<!-- margin: 20px 0px 0px 0px;  -->
-<div id="LoginSecurityEmailOptions" style="margin: 20px 0px 0px 0px;">   
-    <form name="bpsEmailAlerts" action="options.php" method="post">
+	<div id="LoginSecurityEmailOptions" style="width:100%;">   
+
+<form name="bpsEmailAlerts" action="options.php" method="post">
     <?php settings_fields('bulletproof_security_options_email'); ?>
 	<?php $options = get_option('bulletproof_security_options_email'); ?>
 	<?php $admin_email = get_option('admin_email'); ?>
-<strong><label for="bps-monitor-email1"><?php _e('Send Email Alerts & Log Files To:', 'bulletproof-security'); ?> </label></strong>
-<input type="text" name="bulletproof_security_options_email[bps_send_email_to]" class="regular-text-long-fixed" style="width:200px;" value="<?php if ($options['bps_send_email_to'] != '') { echo $options['bps_send_email_to']; } else { echo $admin_email; } ?>" /><br />
-<strong><label for="bps-monitor-email2" style="margin:0px 0px 0px 0px;vertical-align:middle;"><?php _e('Send Email Alerts & Log Files From:', 'bulletproof-security'); ?> </label></strong>
-<input type="text" name="bulletproof_security_options_email[bps_send_email_from]" class="regular-text-long-fixed" style="width:200px;" value="<?php if ($options['bps_send_email_from'] != '') { echo $options['bps_send_email_from']; } else { echo $admin_email; } ?>" /><br />
-<strong><label for="bps-monitor-email3"><?php _e('Send Email Alerts & Log Files Cc:', 'bulletproof-security'); ?> </label></strong>
-<input type="text" name="bulletproof_security_options_email[bps_send_email_cc]" class="regular-text-long-fixed" style="width:200px;" value="<?php echo $options['bps_send_email_cc']; ?>" /><br />
-<strong><label for="bps-monitor-email4"><?php _e('Send Email Alerts & Log Files Bcc:', 'bulletproof-security'); ?> </label></strong>
-<input type="text" name="bulletproof_security_options_email[bps_send_email_bcc]" class="regular-text-long-fixed" style="width:200px; margin:0px 0px 20px 0px;" value="<?php echo $options['bps_send_email_bcc']; ?>" /><br />
-<input type="hidden" name="bpsEMA" value="bps-EMA" />
-<strong><label for="bps-monitor-email"><?php _e('Login Security: Send Login Security Email Alert When...', 'bulletproof-security'); ?></label></strong><br />
+
+<table border="0">
+  <tr>
+    <td><label for="bps-monitor-email"><?php _e('Send Email Alerts & Log Files To:', 'bulletproof-security'); ?> </label></td>
+    <td><input type="text" name="bulletproof_security_options_email[bps_send_email_to]" class="regular-text-long-fixed" style="width:200px;" value="<?php if ( $options['bps_send_email_to'] != '' ) { echo $options['bps_send_email_to']; } else { echo $admin_email; } ?>" /></td>
+  </tr>
+  <tr>
+    <td><label for="bps-monitor-email"><?php _e('Send Email Alerts & Log Files From:', 'bulletproof-security'); ?> </label></td>
+    <td><input type="text" name="bulletproof_security_options_email[bps_send_email_from]" class="regular-text-long-fixed" style="width:200px;" value="<?php if ( $options['bps_send_email_from'] != '' ) { echo $options['bps_send_email_from']; } else { echo $admin_email; } ?>" /></td>
+  </tr>
+  <tr>
+    <td><label for="bps-monitor-email"><?php _e('Send Email Alerts & Log Files Cc:', 'bulletproof-security'); ?> </label></td>
+    <td><input type="text" name="bulletproof_security_options_email[bps_send_email_cc]" class="regular-text-long-fixed" style="width:200px;" value="<?php echo $options['bps_send_email_cc']; ?>" /></td>
+  </tr>
+  <tr>
+    <td><label for="bps-monitor-email"><?php _e('Send Email Alerts & Log Files Bcc:', 'bulletproof-security'); ?> </label></td>
+    <td><input type="text" name="bulletproof_security_options_email[bps_send_email_bcc]" class="regular-text-long-fixed" style="width:200px;" value="<?php echo $options['bps_send_email_bcc']; ?>" /></td>
+  </tr>
+</table>
+<br />
+
+<table border="0">
+  <tr>
+    <td><strong><label for="bps-monitor-email"><?php _e('Login Security: Send Login Security Email Alert When...', 'bulletproof-security'); ?></label></strong><br />
 <select name="bulletproof_security_options_email[bps_login_security_email]" style="width:340px;">
 <option value="lockoutOnly" <?php selected( $options['bps_login_security_email'], 'lockoutOnly'); ?>><?php _e('A User Account Is Locked Out', 'bulletproof-security'); ?></option>
 <option value="adminLoginOnly" <?php selected( $options['bps_login_security_email'], 'adminLoginOnly'); ?>><?php _e('An Administrator Logs In', 'bulletproof-security'); ?></option>
 <option value="adminLoginLock" <?php selected( $options['bps_login_security_email'], 'adminLoginLock'); ?>><?php _e('An Administrator Logs In & A User Account is Locked Out', 'bulletproof-security'); ?></option>
 <option value="anyUserLoginLock" <?php selected( $options['bps_login_security_email'], 'anyUserLoginLock'); ?>><?php _e('Any User Logs In & A User Account is Locked Out', 'bulletproof-security'); ?></option>
 <option value="no" <?php selected( $options['bps_login_security_email'], 'no'); ?>><?php _e('Do Not Send Email Alerts', 'bulletproof-security'); ?></option>
-</select><br /><br />
-<!-- display:none but keep the options together - position:relative; top:-40px; left:0px;  -->
-<strong><label for="bps-monitor-email-log"><?php _e('Security Log: Email/Delete Security Log File When...', 'bulletproof-security'); ?></label></strong><br />
+</select></td>
+  </tr>
+  <tr>
+    <td style="padding-top:5px;"><strong><label for="bps-monitor-email-log"><?php _e('Security Log: Email/Delete Security Log File When...', 'bulletproof-security'); ?></label></strong><br />
 <select name="bulletproof_security_options_email[bps_security_log_size]" style="width:80px;">
 <option value="500KB" <?php selected( $options['bps_security_log_size'], '500KB' ); ?>><?php _e('500KB', 'bulletproof-security'); ?></option>
 <option value="256KB" <?php selected( $options['bps_security_log_size'], '256KB'); ?>><?php _e('256KB', 'bulletproof-security'); ?></option>
@@ -449,25 +416,44 @@ $search = '';
 <select name="bulletproof_security_options_email[bps_security_log_emailL]" style="width:255px;">
 <option value="email" <?php selected( $options['bps_security_log_emailL'], 'email' ); ?>><?php _e('Email Log & Then Delete Log File', 'bulletproof-security'); ?></option>
 <option value="delete" <?php selected( $options['bps_security_log_emailL'], 'delete' ); ?>><?php _e('Delete Log File', 'bulletproof-security'); ?></option>
-</select><br /><br />
+</select></td>
+  </tr>
+  <tr>
+    <td style="padding-top:5px;"><strong><label for="bps-monitor-email-log"><?php _e('DB Backup Log: Email/Delete DB Backup Log File When...', 'bulletproof-security'); ?></label></strong><br />
+<select name="bulletproof_security_options_email[bps_dbb_log_size]" style="width:80px;">
+<option value="500KB" <?php selected( $options['bps_dbb_log_size'], '500KB' ); ?>><?php _e('500KB', 'bulletproof-security'); ?></option>
+<option value="256KB" <?php selected( $options['bps_dbb_log_size'], '256KB'); ?>><?php _e('256KB', 'bulletproof-security'); ?></option>
+<option value="1MB" <?php selected( $options['bps_dbb_log_size'], '1MB' ); ?>><?php _e('1MB', 'bulletproof-security'); ?></option>
+</select>
+<select name="bulletproof_security_options_email[bps_dbb_log_email]" style="width:255px;">
+<option value="email" <?php selected( $options['bps_dbb_log_email'], 'email' ); ?>><?php _e('Email Log & Then Delete Log File', 'bulletproof-security'); ?></option>
+<option value="delete" <?php selected( $options['bps_dbb_log_email'], 'delete' ); ?>><?php _e('Delete Log File', 'bulletproof-security'); ?></option>
+</select></td>
+  </tr>
+</table>
+
 <!-- <strong><label for="bps-monitor-email" style="margin:0px 0px 0px 0px;"><?php //_e('BPS Plugin Upgrade Email Notification', 'bulletproof-security'); ?></label></strong><br />
 <select name="bulletproof_security_options_email[bps_upgrade_email]" style="width:340px;">
 <option value="yes" <?php //selected( @$options['bps_upgrade_email'], 'yes'); ?>><?php //_e('Send Email Alerts', 'bulletproof-security'); ?></option>
 <option value="no" <?php //selected( @$options['bps_upgrade_email'], 'no'); ?>><?php //_e('Do Not Send Email Alerts', 'bulletproof-security'); ?></option>
 </select><br /><br /> -->
-<input type="submit" name="bpsEmailAlertSubmit" class="bps-blue-button" style="margin:0px 0px 20px 0px;" value="<?php esc_attr_e('Save Options', 'bulletproof-security') ?>" />
+
+<input type="hidden" name="bpsEMA" value="bps-EMA" />
+<input type="submit" name="bpsEmailAlertSubmit" class="bps-blue-button" style="margin:15px 0px 0px 0px;" value="<?php esc_attr_e('Save Options', 'bulletproof-security') ?>" />
 </form>
 </div>
+<br />
 
 <div id="bpsUserAgent1" style="margin:0px 0px 0px 0px;">
 <form action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
 <?php wp_nonce_field('bulletproof_security_useragent_ignore'); ?>
     <strong><label for="UA-ignore"><?php _e('Add User Agents/Bots to Ignore/Not Log', 'bulletproof-security'); ?></label></strong><br />
-    <strong><label for="UA-ignore"><?php _e('Click the Blue Read Me Help button for examples', 'bulletproof-security'); ?></label></strong><br />    
+    <strong><label for="UA-ignore"><?php _e('Click the Read Me Help button for examples', 'bulletproof-security'); ?></label></strong><br />    
     <input type="text" name="user-agent-ignore" class="regular-text" style="width:320px;" value="" />
     <input type="submit" name="Submit-UserAgent-Ignore" value="<?php esc_attr_e('Add / Ignore', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Clicking OK will Add the User Agent/Bot name you have entered to your DB and the 403.php Security Logging template.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('Security logging checks are done by the 403.php Security Logging file and not by DB Queries.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('To remove User Agents/Bots from being ignored / not logged use the Remove / Allow tool.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('Click OK to proceed or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
 </form>
 </div>
+
 
 <?php
 /**************************************/
@@ -480,10 +466,42 @@ $search = '';
 	echo '<strong>'.__('Remove User Agents/Bots to Allow/Log', 'bulletproof-security').'</strong><br>';
 	echo '<input type="text" name="userAgentSearchRemove" class="regular-text" style="width:320px;" value="" />';
 	echo '<input type="submit" name="Submit-SecLog-Search" value="'.esc_attr('Remove / Allow', 'bulletproof-security').'" class="bps-blue-button" style="margin-left:4px;" onclick="return confirm('."'".__('Clicking OK will search your database and display User Agent/Bot DB search results in a Dynamic Radio button Form.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('To search for ALL User Agents/Bots to remove/delete from your database leave the text box blank and click the Remove / Allow button.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('Click OK to proceed or click Cancel.', 'bulletproof-security')."'".')" />';
-	echo '</form><br><br>';
+	echo '</form><br>';
 
+?>
+
+<div id="SecurityLogTable" style="margin:0px 0px 5px 0px;">
+
+<table width="450" border="0">
+  <tr>
+    <td>
+<form name="BPSErrorLogOff" action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
+<?php wp_nonce_field('bps-error-log-off'); ?>
+<input type="submit" name="Submit-Error-Log-Off" value="<?php esc_attr_e('Turn Off Logging', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Click OK to Turn Off Error Logging or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
+</form>
+</td>
+    <td>
+<form name="BPSErrorLogOn" action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
+<?php wp_nonce_field('bps-error-log-on'); ?>
+<input type="submit" name="Submit-Error-Log-On" value="<?php esc_attr_e('Turn On Logging', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Click OK to Turn On Logging or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
+</form>
+</td>
+    <td>
+<form name="DeleteLogForm" action="admin.php?page=bulletproof-security/admin/security-log/security-log.php" method="post">
+<?php wp_nonce_field('bps-delete-security-log'); ?>
+<input type="submit" name="Submit-Delete-Log" value="<?php esc_attr_e('Delete Log', 'bulletproof-security') ?>" class="bps-blue-button" onclick="return confirm('<?php $text = __('Clicking OK will delete the contents of your Security Log file.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('Click OK to Delete the Log file contents or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
+</form>
+</td>
+  </tr>
+</table>
+</div>
+
+<?php
+/**************************************/
+//  Cont. Dynamic Security Log Form   //
+/**************************************/
 // Get the Search Post variable for processing other search/remove Forms 
-if (isset($_POST['Submit-SecLog-Search']) && current_user_can('manage_options')) {
+if ( isset( $_POST['Submit-SecLog-Search'] ) && current_user_can('manage_options') ) {
 	check_admin_referer( 'bulletproof_security_seclog_db_search' );
 	
 $search = $_POST['userAgentSearchRemove'];
@@ -501,7 +519,7 @@ $searchAll = '';
 
 			$getSecLogTableSearch = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $bpspro_seclog_table WHERE user_agent_bot LIKE %s", "%$searchAll%") );
 			
-		if ($wpdb->num_rows == 0) { // if no rows exist in DB add the BPSUserAgentPlaceHolder back into the 403.php security logging template
+		if ( $wpdb->num_rows == 0 ) { // if no rows exist in DB add the BPSUserAgentPlaceHolder back into the 403.php security logging template
 			
 			$stringReplace = preg_replace('/# BEGIN USERAGENT FILTER(.*)# END USERAGENT FILTER/s', "# BEGIN USERAGENT FILTER\nif ( !preg_match('/BPSUserAgentPlaceHolder/', \$_SERVER['HTTP_USER_AGENT']) ) {\n# END USERAGENT FILTER", $stringReplace);		
 		
@@ -517,7 +535,7 @@ $searchAll = '';
 }
 
 // Remove User Agents/Bots Dynamic Radio button Form proccessing code
-if (isset($_POST['Submit-SecLog-Remove']) && current_user_can('manage_options')) {
+if ( isset( $_POST['Submit-SecLog-Remove'] ) && current_user_can('manage_options') ) {
 	check_admin_referer('bulletproof_security_seclog_db_remove');
 	
 $removeornot = $_POST['removeornot'];
@@ -526,25 +544,26 @@ $userAgentMaster = WP_CONTENT_DIR . '/bps-backup/master-backups/UserAgentMaster.
 $bps403File = WP_PLUGIN_DIR . '/bulletproof-security/403.php';
 $searchALLD = '';
 
-	switch($_POST['Submit-SecLog-Remove']) {
+	switch( $_POST['Submit-SecLog-Remove'] ) {
 		case __('Remove', 'bulletproof-security'):
 	
 		$remove_rows = array();
 
-		if (!empty($removeornot)) {
-			foreach ($removeornot as $key => $value) {
-				if ($value == 'remove') {
+		if ( !empty($removeornot) ) {
+			
+			foreach ( $removeornot as $key => $value ) {
+				if ( $value == 'remove' ) {
 					$remove_rows[] = $key;
-				} elseif ($value == 'donotremove') {
+				} elseif ( $value == 'donotremove' ) {
 					$donotremove .=  ', '.$key;
 				}
 				}
 			}
 			$donotremove = substr($donotremove, 2);
 		
-		if (!empty($remove_rows)) {
+		if ( !empty($remove_rows) ) {
 			
-			foreach ($remove_rows as $remove_row) {
+			foreach ( $remove_rows as $remove_row ) {
 				if ( !$delete_row = $wpdb->query( $wpdb->prepare( "DELETE FROM $bpspro_seclog_table WHERE user_agent_bot = %s", $remove_row) )) {
 					$textSecLogRemove = '<font color="red"><strong>'.sprintf(__('%s unable to delete row from your DB.', 'bulletproof-security'), $remove_row).'</strong></font><br>';			
 				} else {
@@ -553,7 +572,7 @@ $searchALLD = '';
 					$getSecLogTableRemove = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $bpspro_seclog_table WHERE user_agent_bot LIKE %s", "%$searchALLD%") );
 					$UserAgentRules = array();		
 
-					foreach ($getSecLogTableRemove as $row) {
+					foreach ( $getSecLogTableRemove as $row ) {
 						$UserAgentRules[] = "(.*)".$row->user_agent_bot."(.*)|";
 							file_put_contents($userAgentMaster, $UserAgentRules);
 					}
@@ -571,11 +590,12 @@ $searchALLD = '';
 			$text = '<font color="red"><strong>'.__('Error: Unable to write to file ', 'bulletproof-security').$bps403File.__('. Check that file permissions allow writing to this file. If you have a DSO Server check file and folder Ownership.', 'bulletproof-security').'</strong></font>';
 			echo $text;	
 			echo $bps_bottomDiv;
+		
 		} else {
 			// need to run the Query again just in case there are 0 DB rows
-			$getSecLogTableRemove = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $bpspro_seclog_table WHERE user_agent_bot LIKE %s", "%$searchAll%") );
+			$getSecLogTableRemove = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $bpspro_seclog_table WHERE user_agent_bot LIKE %s", "%$searchAll%" ) );
 			
-		if ($wpdb->num_rows == 0) { // if no rows exist in DB add the BPSUserAgentPlaceHolder back into the 403.php security logging template
+		if ( $wpdb->num_rows == 0 ) { // if no rows exist in DB add the BPSUserAgentPlaceHolder back into the 403.php security logging template
 			
 			$stringReplace = preg_replace('/# BEGIN USERAGENT FILTER(.*)# END USERAGENT FILTER/s', "# BEGIN USERAGENT FILTER\nif ( !preg_match('/BPSUserAgentPlaceHolder/', \$_SERVER['HTTP_USER_AGENT']) ) {\n# END USERAGENT FILTER", $stringReplace);
 			file_put_contents($bps403File, $stringReplace);		
@@ -588,7 +608,7 @@ $searchALLD = '';
 		}
 		} // end if (!empty($remove_rows)) { // no rows selected to delete
 		
-		if (!empty($donotremove)) {
+		if ( !empty($donotremove) ) {
 		// do nothing here - do not echo a message because it would be repeated X times
 		//$textDB = '<font color="green">'.sprintf(__('DB Rows %s Not Removed', 'bulletproof-security'), $donotremove).'</font>';
 		}
@@ -609,7 +629,7 @@ echo '<div id="message" class="updated" style="border:1px solid #999999; margin-
 	$bpspro_seclog_table = $wpdb->prefix . "bpspro_seclog_ignore";
 	$search = @$_POST['userAgentSearchRemove'];
 
-	if ( isset($_POST['Submit-SecLog-Search']) ) {
+	if ( isset( $_POST['Submit-SecLog-Search'] ) ) {
 
 	$getSecLogTableSearchForm = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $bpspro_seclog_table WHERE user_agent_bot LIKE %s", "%$search%") );
 		
@@ -626,7 +646,7 @@ echo '<div id="message" class="updated" style="border:1px solid #999999; margin-
 		echo '<tbody>';
 		echo '<tr>';
 		
-		foreach ($getSecLogTableSearchForm as $row) {
+		foreach ( $getSecLogTableSearchForm as $row ) {
 		
 		echo '<th scope="row" style="border-bottom:none;">'.$row->user_agent_bot.'</th>';
 		echo "<td><input type=\"radio\" id=\"remove\" name=\"removeornot[$row->user_agent_bot]\" value=\"remove\" /></td>";
@@ -636,7 +656,7 @@ echo '<div id="message" class="updated" style="border:1px solid #999999; margin-
 		}
 		echo '</tbody>';
 		echo '</table>';	
-		if ($wpdb->num_rows != 0) {		
+		if ( $wpdb->num_rows != 0 ) {		
 		echo $bps_topDiv;
 		$text = '<font color="green"><strong>'.__('Your DB Search Results For User Agents/Bots To Remove are displayed below the Remove / Allow Search tool.', 'bulletproof-security').'</strong></font><br>';
 		echo $text;
@@ -661,10 +681,10 @@ echo '<div id="message" class="updated" style="border:1px solid #999999; margin-
 <?php
 // Get BPS Security log file contents
 function bps_get_security_log() {
-if (current_user_can('manage_options')) {
+if ( current_user_can('manage_options') ) {
 $bps_sec_log = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 	
-	if (file_exists($bps_sec_log)) {
+	if ( file_exists($bps_sec_log) ) {
 		$bps_sec_log = file_get_contents($bps_sec_log);
 	return esc_html($bps_sec_log);
 	
@@ -675,15 +695,15 @@ $bps_sec_log = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 }
 
 // Form - Security Log - Perform File Open and Write test - If append write test is successful write to file
-if (current_user_can('manage_options')) {
+if ( current_user_can('manage_options') ) {
 $bps_sec_log = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 $write_test = "";
 	
-	if (is_writable($bps_sec_log)) {
-    if (!$handle = fopen($bps_sec_log, 'a+b')) {
+	if ( is_writable($bps_sec_log) ) {
+    if ( !$handle = fopen($bps_sec_log, 'a+b' ) ) {
     	exit;
     }
-    if (fwrite($handle, $write_test) === FALSE) {
+    if ( fwrite($handle, $write_test) === FALSE ) {
 		exit;
     }
 	$text = '<font color="green"><strong>'.__('File Open and Write test successful! Your Security Log file is writable.', 'bulletproof-security').'</strong></font><br>';
@@ -691,7 +711,7 @@ $write_test = "";
 	}
 	}
 	
-	if (isset($_POST['submit-security-log']) && current_user_can('manage_options')) {
+	if ( isset( $_POST['submit-security-log'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_security_log' );
 		$newcontentSecLog = stripslashes($_POST['newcontentSecLog']);
 	if ( is_writable($bps_sec_log) ) {
@@ -760,6 +780,7 @@ jQuery(document).ready(function($){
 </div>
          
 <div id="AITpro-link">BulletProof Security <?php echo BULLETPROOF_VERSION; ?> Plugin by <a href="http://www.ait-pro.com/" target="_blank" title="AITpro Website Security">AITpro Website Security</a>
+</div>
 </div>
 </div>
 </div>
