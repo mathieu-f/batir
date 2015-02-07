@@ -65,7 +65,7 @@ get_header();
 				<!-- blog image-->
 				<div class="blog_image alignleft">
 					<span class="frame alignleft blogimage"><a href="<?php echo $image_url[0]; ?>" title="<?php the_title(); ?>" rel="prettyPhoto[rt_theme_posts]" class="imgeffect plus">
-						<img src="<?php echo $image["url"];?>" alt="" />
+						<img src="<?php echo $image["url"];?>" alt="<?php the_title(); ?>" />
 					</a></span>
 				</div>
 				<!-- / blog image -->

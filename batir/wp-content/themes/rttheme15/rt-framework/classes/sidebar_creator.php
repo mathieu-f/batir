@@ -215,7 +215,7 @@ class RT_Create_Sidebars{
 		if(is_front_page()) dynamic_sidebar('left-sidebar-for-home-page');
 		
 		// Page Sidebar
-		if(is_theme_page()) dynamic_sidebar('sidebar-for-pages');
+		if( ! is_theme_page() ) dynamic_sidebar('sidebar-for-pages');
 
 		// Portfolio Sidebar - all portfolio contents
 		if( @$post->ID==PORTFOLIOPAGE || get_query_var('taxonomy')=="portfolio_categories" || (is_single() && $post->post_type=='portfolio' )) dynamic_sidebar('sidebar-for-portfolio');

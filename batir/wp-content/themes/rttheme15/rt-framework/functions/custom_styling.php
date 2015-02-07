@@ -126,7 +126,7 @@ function rt_custom_styling(){
 		echo 'body #container .ppy-caption a {color:'.$rttheme_custom_theme_color.';}';
 		echo 'body #container .ppy-text h5 a:hover {color:#fff !important;}';
 		echo 'body #container .theme-default .nivo-caption .nivo-text a {color:'.$rttheme_custom_theme_color.'; background:transparent;}';
-		echo 'body #container .theme-default .nivo-directionNav a { background-color:'.$rttheme_custom_theme_color.';color:#fff;}';
+		echo 'body #container .theme-default .nivo-directionNav a, body #container .nivo-controlNav a { background-color:'.$rttheme_custom_theme_color.';color:#fff;}';
 		echo 'body #container .theme-default .nivo-caption a:hover{ background-color:'.$rttheme_custom_theme_color.';color:#fff !important;}';
 		echo 'body #container .theme-default .nivo-directionNav a:hover{ background-color:'.$rttheme_custom_theme_color.';color:#fff !important;opacity:0.5}';
 		echo 'body #container .theme-default .nivo-caption .nivo-title a:hover{background-color:'.$rttheme_custom_theme_color.';color:#fff !important;}'; 	

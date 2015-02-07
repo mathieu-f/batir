@@ -37,7 +37,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
 			<!-- blog image-->
 			<div class="blog_image alignleft">
 			    <span class="frame alignleft"><a href="<?php echo get_permalink() ?>" title="<?php the_title(); ?>" class="imgeffect link">
-				   <img src="<?php echo $image["url"];?>" alt="" />
+				   <img src="<?php echo $image["url"];?>" alt="<?php the_title(); ?>" />
 			    </a></span>
 			</div>
 			<!-- / blog image -->

@@ -8,39 +8,39 @@
 ------------------------------------------------------- */
 
 @font-face {
-    font-family: 'CenturyGothicRegular';
-    src: url('../../../../wp-includes/fonts/gothic.eot');
-    src: url('../../../../wp-includes/fonts/gothic.eot') format('embedded-opentype'),
-    url('../../../../wp-includes/fonts/gothic.woff') format('woff'),
-    url('../../../../wp-includes/fonts/gothic.ttf') format('truetype'),
-    url('../../../../wp-includes/fonts/gothic.svg#CenturyGothicRegular') format('svg');
+	font-family: 'CenturyGothicRegular';
+	src: url('../../../../wp-includes/fonts/gothic.eot');
+	src: url('../../../../wp-includes/fonts/gothic.eot') format('embedded-opentype'),
+	url('../../../../wp-includes/fonts/gothic.woff') format('woff'),
+	url('../../../../wp-includes/fonts/gothic.ttf') format('truetype'),
+	url('../../../../wp-includes/fonts/gothic.svg#CenturyGothicRegular') format('svg');
 }
 
 @font-face {
-    font-family: 'CenturyGothicBold';
-    src: url('../../../../wp-includes/fonts/gothic.eot');
-    src: url('../../../../wp-includes/fonts/gothicb.eot') format('embedded-opentype'),
-    url('../../../../wp-includes/fonts/gothicb.woff') format('woff'),
-    url('../../../../wp-includes/fonts/gothicb.ttf') format('truetype'),
-    url('../../../../wp-includes/fonts/gothicb.svg#CenturyGothicBold') format('svg');
+	font-family: 'CenturyGothicBold';
+	src: url('../../../../wp-includes/fonts/gothic.eot');
+	src: url('../../../../wp-includes/fonts/gothicb.eot') format('embedded-opentype'),
+	url('../../../../wp-includes/fonts/gothicb.woff') format('woff'),
+	url('../../../../wp-includes/fonts/gothicb.ttf') format('truetype'),
+	url('../../../../wp-includes/fonts/gothicb.svg#CenturyGothicBold') format('svg');
 }
 
 @font-face {
-    font-family: 'CenturyGothicBoldItalic';
-    src: url('../../../../wp-includes/fonts/gothicbi.eot');
-    src: url('../../../../wp-includes/fonts/gothicbi.eot') format('embedded-opentype'),
-    url('../../../../wp-includes/fonts/gothicbi.woff') format('woff'),
-    url('../../../../wp-includes/fonts/gothicbi.ttf') format('truetype'),
-    url('../../../../wp-includes/fonts/gothicbi.svg#CenturyGothicBoldItalic') format('svg');
+	font-family: 'CenturyGothicBoldItalic';
+	src: url('../../../../wp-includes/fonts/gothicbi.eot');
+	src: url('../../../../wp-includes/fonts/gothicbi.eot') format('embedded-opentype'),
+	url('../../../../wp-includes/fonts/gothicbi.woff') format('woff'),
+	url('../../../../wp-includes/fonts/gothicbi.ttf') format('truetype'),
+	url('../../../../wp-includes/fonts/gothicbi.svg#CenturyGothicBoldItalic') format('svg');
 }
 
 @font-face {
-    font-family: 'CenturyGothicItalic';
-    src: url('../../../../wp-includes/fonts/gothici.eot');
-    src: url('../../../../wp-includes/fonts/gothici.eot') format('embedded-opentype'),
-    url('../../../../wp-includes/fonts/gothici.woff') format('woff'),
-    url('../../../../wp-includes/fonts/gothici.ttf') format('truetype'),
-    url('../../../../wp-includes/fonts/gothici.svg#CenturyGothicItalic') format('svg');
+	font-family: 'CenturyGothicItalic';
+	src: url('../../../../wp-includes/fonts/gothici.eot');
+	src: url('../../../../wp-includes/fonts/gothici.eot') format('embedded-opentype'),
+	url('../../../../wp-includes/fonts/gothici.woff') format('woff'),
+	url('../../../../wp-includes/fonts/gothici.ttf') format('truetype'),
+	url('../../../../wp-includes/fonts/gothici.svg#CenturyGothicItalic') format('svg');
 }
 
 
@@ -142,6 +142,11 @@
 	/* Text Logo */
 	#logo h1, #mobile_logo h1{
 		font-size:40px;
+	}
+
+	/* logo image */
+	#logo img{
+  		max-width: 100%;
 	}
 
 	/* hide mobile header */
@@ -1221,6 +1226,11 @@
 		min-width: 100%;
 	}		
   
+	/* wp image */
+	[class^="wp-image-"], [class*=" wp-image-"]{ 
+		max-width: 100%;
+		height: auto;
+	}
 /* ----------------------------------------------------
 	BLOG
 ------------------------------------------------------- */

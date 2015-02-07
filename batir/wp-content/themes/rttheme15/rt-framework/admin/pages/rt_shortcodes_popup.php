@@ -487,7 +487,7 @@ if($_GET['section']=='layouts'){
 	    
 	    var shortcode_value = jQuery('#'+shortcode).html();
 	    
-	    window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, shortcode_value);
+	    parent.tinymce.activeEditor.execCommand( 'mceInsertContent',false, shortcode_value);
 	    window.tinyMCE.activeEditor.execCommand('mceRepaint');
 	    tinyMCEPopup.close();
 	}

@@ -1,18 +1,23 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Project-Id-Version: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: RT-Theme 18\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Tolga Can <tolgacan@rtthemes.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
+"Language: en_US\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.4\n"
 
 # Latest News
 #. Text in function
-#: loop.php:69
-#: single.php:54
+#: loop.php:69 single.php:54
 msgid "% Comments"
 msgstr "% Kommentare"
 
@@ -27,14 +32,12 @@ msgid "(Edit)"
 msgstr "(Bearbeiten)"
 
 #. Text in function
-#: loop.php:69
-#: single.php:54
+#: loop.php:69 single.php:54
 msgid "0 Comment"
 msgstr "0 Kommentare"
 
 #. Text in function
-#: loop.php:69
-#: single.php:54
+#: loop.php:69 single.php:54
 msgid "1 Comment"
 msgstr "1 Kommentar"
 
@@ -50,8 +53,12 @@ msgstr "Über den Autor"
 
 #. Text in echo
 #: 404.php:12
-msgid "Apologies, but the page you requested could not be found. Perhaps searching will help."
-msgstr "Verzeihung, aber die gesuchte Seite wurde nicht gefunden, vielleicht kann die Suchfunktion helfen."
+msgid ""
+"Apologies, but the page you requested could not be found. Perhaps searching "
+"will help."
+msgstr ""
+"Verzeihung, aber die gesuchte Seite wurde nicht gefunden, vielleicht kann "
+"die Suchfunktion helfen."
 
 #. Text in function
 #: single-products.php:174
@@ -211,16 +218,12 @@ msgid "Search"
 msgstr "Suche"
 
 #. Text in echo
-#: single.php:115
-#: single-portfolio.php:105
-#: page.php:29
-#: single-products.php:269
+#: single.php:115 single-portfolio.php:105 page.php:29 single-products.php:269
 msgid "Sorry, no page found."
 msgstr "Leider wurde keine Seite gefunden."
 
 #. Text in echo
-#: loop.php:108
-#: list_loop.php:70
+#: loop.php:108 list_loop.php:70
 msgid "Sorry, no posts matched your criteria."
 msgstr "Leider entsprechen keine Artikel den Suchkriterien."
 
@@ -241,8 +244,11 @@ msgstr "Fehler bei der Übertragung."
 
 #. Text in echo
 #: comments.php:4
-msgid "This post is password protected. Enter the password to view any comments."
-msgstr "Dieser Artikel ist passwortgeschützt. Passwort eingeben um Kommentare anzuzeigen."
+msgid ""
+"This post is password protected. Enter the password to view any comments."
+msgstr ""
+"Dieser Artikel ist passwortgeschützt. Passwort eingeben um Kommentare "
+"anzuzeigen."
 
 #. Text in function
 #: rt-framework/widgets/twitter.php:51
@@ -277,7 +283,8 @@ msgstr "Ihr Kommentar wartet aus die Freigabe."
 #. Text in function
 #: rt-framework/functions/rt_shortcodes.php:1
 msgid "Your email was successfully sent. We will be in touch soon."
-msgstr "Ihre Nachricht wurde erfolgreich gesendet. Wir antworten Ihnen baldmöglichst."
+msgstr ""
+"Ihre Nachricht wurde erfolgreich gesendet. Wir antworten Ihnen baldmöglichst."
 
 #. Text in function
 #: rt-framework/functions/rt_shortcodes.php:1
@@ -285,9 +292,7 @@ msgid "Your message (*)"
 msgstr "Ihre Nachricht (*)"
 
 #. Text in function
-#: loop.php:49
-#: portfolio_loop.php:171
-#: list_loop.php:27
+#: loop.php:49 portfolio_loop.php:171 list_loop.php:27
 #: rt-framework/widgets/recent_posts_gallery.php:1
 msgid "read more →"
 msgstr "weiter →"
@@ -298,8 +303,7 @@ msgid "to post a comment."
 msgstr ",um einen Kommentar zu schreiben."
 
 #. Text in echo
-#: single.php:91
-#: comments.php:91
+#: single.php:91 comments.php:91
 msgid "top"
 msgstr "zum Anfang"
 
@@ -307,4 +311,3 @@ msgstr "zum Anfang"
 #: searchform.php:3
 msgid "type and hit enter.."
 msgstr "Schreiben und Enter drücken..."
-

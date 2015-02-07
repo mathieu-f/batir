@@ -252,6 +252,17 @@ jQuery(document).ready(function() {
                 
 });
 
+// close shortcode messages
+(function($){
+	$(document.body).on("click",".rt-message",function() {   
+
+		var this_holder = $(this).parents("div:eq(1)");	 
+		this_holder.remove();
+
+	});
+})(jQuery);
+
+
 //rttheme media upload script
 jQuery(document).ready(function() {
   

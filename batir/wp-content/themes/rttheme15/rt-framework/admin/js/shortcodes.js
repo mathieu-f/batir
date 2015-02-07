@@ -51,7 +51,7 @@
 				title : 'RT-Theme Contact Form Shortcode ',
 				image : url+'/../images/mail-open.png',
 				onclick : function() {
-					window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '[contact_form title=\"Form Title\" email=\"youremail@yoursite.com\" text=\"Form description\"] ');
+					wp.media.editor.insert('[contact_form title=\"Form Title\" email=\"youremail@yoursite.com\" text=\"Form description\"] ');
 					window.tinyMCE.activeEditor.execCommand('mceRepaint');
 					
 						jQuery(".rt-message-contact-form").remove();
@@ -78,7 +78,7 @@
 				title : 'RT-Theme Slider Shortcode',
 				image : url+'/../images/slider-shortcodes.png',
 				onclick : function() {
-					window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '[slider]<br />[slide image_width=\"650\" image_height=\"300\" link=\"your_link\" alt_text="check it out" auto_resize="true"] full url of your image [/slide] <br />[slide image_width=\"650\" image_height=\"300\" link="your_link\" alt_text="check it out" auto_resize="true"] full url of your image [/slide] <br />[/slider] <br /> <br /> ');
+					wp.media.editor.insert('[slider]<br />[slide image_width=\"650\" image_height=\"300\" link=\"your_link\" alt_text="check it out" auto_resize="true"] full url of your image [/slide] <br />[slide image_width=\"650\" image_height=\"300\" link="your_link\" alt_text="check it out" auto_resize="true"] full url of your image [/slide] <br />[/slider] <br /> <br /> ');
 					window.tinyMCE.activeEditor.execCommand('mceRepaint');
 
 
@@ -106,7 +106,7 @@
 				title : 'RT-Theme Photo Gallery Shortcode',
 				image : url+'/../images/photo-gallery-shortcodes.png',
 				onclick : function() {
-					window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '			[photo_gallery] <br />[image thumb_width="135" thumb_height="135" lightbox="true" custom_link="" title="sample image" caption=""] full url of your image [/image] <br />[image thumb_width="135" thumb_height="135" lightbox="true" custom_link="" title="sample image" caption=""] full url of your image [/image] <br />[image thumb_width="135" thumb_height="135" lightbox="true" custom_link="" title="sample image" caption=""] full url of your image [/image] <br />[/photo_gallery] <br /> <br /> ');
+					wp.media.editor.insert('			[photo_gallery] <br />[image thumb_width="135" thumb_height="135" lightbox="true" custom_link="" title="sample image" caption=""] full url of your image [/image] <br />[image thumb_width="135" thumb_height="135" lightbox="true" custom_link="" title="sample image" caption=""] full url of your image [/image] <br />[image thumb_width="135" thumb_height="135" lightbox="true" custom_link="" title="sample image" caption=""] full url of your image [/image] <br />[/photo_gallery] <br /> <br /> ');
 					window.tinyMCE.activeEditor.execCommand('mceRepaint');
 
 						jQuery(".rt-message-contact-form").remove();
@@ -134,7 +134,7 @@
 				title : 'RT-Theme Auto Thumbnail and Lightbox Shortcode',
 				image : url+'/../images/thumbnail-shortcodes.png',
 				onclick : function() {
-					window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '			[auto_thumb width="150" height="150" link="" lightbox="true" align="left" title="" alt="" iframe="false" frame="true" crop="true"] full url of your image [/auto_thumb] <br /> <br /> ');
+					wp.media.editor.insert('			[auto_thumb width="150" height="150" link="" lightbox="true" align="left" title="" alt="" iframe="false" frame="true" crop="true"] full url of your image [/auto_thumb] <br /> <br /> ');
 					window.tinyMCE.activeEditor.execCommand('mceRepaint');
 
 						jQuery(".rt-message-contact-form").remove();
@@ -168,7 +168,7 @@
 					title : 'RT-Theme Scroll Slider Shortcode',
 					image : url+'/../images/scroll_slider.png',
 					onclick : function() {
-						window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '			[scroll_slider]<br />[scroll_image] full url of your image [/scroll_image] <br />[scroll_image] full url of your image [/scroll_image] <br />[scroll_image] full url of your image [/scroll_image] <br />[/scroll_slider] <br /> <br /> ');
+						wp.media.editor.insert('			[scroll_slider]<br />[scroll_image] full url of your image [/scroll_image] <br />[scroll_image] full url of your image [/scroll_image] <br />[scroll_image] full url of your image [/scroll_image] <br />[/scroll_slider] <br /> <br /> ');
 						window.tinyMCE.activeEditor.execCommand('mceRepaint');
 	
 							jQuery(".rt-message-contact-form").remove();
@@ -190,7 +190,7 @@
 					title : 'RT-Theme Tabs Shortcode',
 					image : url+'/../images/tab-shortcodes.png',
 					onclick : function() {
-						window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '			[tabs tab1="Tab 1" tab2="Tab 2" tab3="Tab 3"]<br />[tab]Tab 1 Content [/tab]<br />[tab]Tab 2 Content[/tab]<br />[tab]Tab 3 Content [/tab]<br />[/tabs]<br /> <br /> ');
+						wp.media.editor.insert('			[tabs tab1="Tab 1" tab2="Tab 2" tab3="Tab 3"]<br />[tab]Tab 1 Content [/tab]<br />[tab]Tab 2 Content[/tab]<br />[tab]Tab 3 Content [/tab]<br />[/tabs]<br /> <br /> ');
 						window.tinyMCE.activeEditor.execCommand('mceRepaint');
 	
 							jQuery(".rt-message-contact-form").remove();
@@ -215,7 +215,7 @@
 					title : 'RT-Theme Accordion Shortcode',
 					image : url+'/../images/accordion-shortcodes.png',
 					onclick : function() {
-						window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '[accordion align="" first_one_open="true"]<br />[pane title="Accordion Pane 1"] content [/pane] <br />[pane title="Accordion Pane 2"] content [/pane] <br />[pane title="Accordion Pane 3"] content [/pane] <br />[/accordion]<br /><br /> ');
+						wp.media.editor.insert('[accordion align="" first_one_open="true"]<br />[pane title="Accordion Pane 1"] content [/pane] <br />[pane title="Accordion Pane 2"] content [/pane] <br />[pane title="Accordion Pane 3"] content [/pane] <br />[/accordion]<br /><br /> ');
 						window.tinyMCE.activeEditor.execCommand('mceRepaint');
 	
 							jQuery(".rt-message-contact-form").remove();
@@ -242,7 +242,7 @@
 					title : 'RT-Theme Tool Tip Shortcode',
 					image : url+'/../images/tool_tip.png',
 					onclick : function() {
-						window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '[tooltip text="Tooltip Text" link="" target="" color="black"]content[/tooltip]<br /><br /> ');
+						wp.media.editor.insert('[tooltip text="Tooltip Text" link="" target="" color="black"]content[/tooltip]<br /><br /> ');
 						window.tinyMCE.activeEditor.execCommand('mceRepaint');
 	
 							jQuery(".rt-message-contact-form").remove();
@@ -273,7 +273,7 @@
 					title : 'RT-Theme Product Slider / List Shortcode',
 					image : url+'/../images/box.png',
 					onclick : function() {
-						window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.editorId, 'mceInsertContent', false, '[product_slider slider="true" categories="" ids="" columns="4"]<br /><br /> ');
+						wp.media.editor.insert('[product_slider slider="true" categories="" ids="" columns="4"]<br /><br /> ');
 						window.tinyMCE.activeEditor.execCommand('mceRepaint');
 	
 							jQuery(".rt-message-contact-form").remove();

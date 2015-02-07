@@ -26,7 +26,7 @@ function rt_widget_caller($atts, $content = null){
 	
 	ob_start();
 
-     //check id
+    //check id
 	if(!empty($id)){
 	    dynamic_sidebar($id);
 	}
@@ -395,7 +395,7 @@ function rt_shortcode_slider_slides( $atts, $content = null ) {
 
 	//defaults
 	extract(shortcode_atts(array(  
-        "image_width" => '628',
+       "image_width" => '628',
 	   "image_height" => '300',
 	   "link" => '',
 	   "alt_text" => '',
@@ -457,7 +457,7 @@ function rt_shortcode_tabs( $atts, $content = null ) {
 	    }
 	}    
 
-	return '<div class="box full"><div class="taps_wrap"><ul class="tabs">'.$tabs.'</ul>'.apply_filters('the_content',$content).'</div></div>';
+	return '<div class="box full"><div class="taps_wrap"><ul class="tabs">'.$tabs.'</ul>'.$content.'</div></div>';
 }
 
 function rt_shortcode_tab( $atts, $content = null ) {
