@@ -146,12 +146,6 @@ body {
     z-index: 10;
 }
 
-/* Text Logo */
-#logo h1 a:hover, #mobile_logo h1 a:hover {
-    color: #00339A;
-    background: none;
-}
-
 /* logo image */
 #logo img {
     max-width: 100%;
@@ -164,7 +158,7 @@ body {
 /* hide mobile header */
 #mobile_header {
     display: none;
-    background: #fff;
+    background: #343434;
     padding: 20px 0;
     margin: 0 auto;
 }
@@ -185,9 +179,9 @@ body {
 
 /* sidebar background color */
 .sidebar_content {
-    background: rgba(240, 240, 240, 0.6);
+    background: #343434;
     padding: 0 30px;
-    color: #343434;
+    color:#cecece;
 }
 
 .sidebar_bottom {
@@ -297,11 +291,11 @@ body {
 
 /* First Level */
 #navigation > ul {
-    background: url(../images/grey-pixel.png) top repeat-x;
+    background: url(../images/transparent-pixel.png) top repeat-x;
 }
 
 #navigation > ul > li {
-    background: url(../images/grey-pixel.png) bottom repeat-x;
+    background: url(../images/transparent-pixel.png) bottom repeat-x;
     padding: 10px 0 10px 0;
 }
 
@@ -328,7 +322,7 @@ body {
 /* Third Level */
 #navigation ul ul ul {
     margin: 10px 0 0 0;
-    background: url(../images/grey-pixel.png) repeat-y;
+    background: url(../images/transparent-pixel.png) repeat-y;
 }
 
 #navigation ul ul ul li {
@@ -432,7 +426,7 @@ span.top:hover {
 
 /* line with big margin for sidebar*/
 .sidebar_content .bold_line {
-    background: transparent url(../images/grey-pixel.png) top repeat-x;
+    background: transparent url(../images/transparent-pixel.png) top repeat-x;
 }
 
 /* line */
@@ -513,7 +507,7 @@ img.featured {
 }
 
 .widget ul li li {
-    background: url(../images/grey-pixel.png) top repeat-x;
+    background: url(../images/transparent-pixel.png) top repeat-x;
 }
 
 .widget ul li li {
@@ -550,13 +544,13 @@ img.featured {
 
 /* widget links */
 .sidebar_content .box ul {
-    background: url(../images/grey-pixel.png) top repeat-x;
+    background: url(../images/transparent-pixel.png) top repeat-x;
     margin: 0 0 20px 0;
     border: 0;
 }
 
 .sidebar_content .box ul li {
-    background: url(../images/grey-pixel.png) bottom repeat-x;
+    background: url(../images/transparent-pixel.png) bottom repeat-x;
     padding: 10px 0;
     line-height: 120%;
     border: 0;
@@ -589,7 +583,7 @@ img.featured {
 }
 
 .sidebar_content .box ul li li {
-    background: url(../images/grey-pixel.png) top repeat-x;
+    background: url(../images/transparent-pixel.png) top repeat-x;
 }
 
 .sidebar_content .box ul li li {
@@ -2230,7 +2224,7 @@ table td {
 .sidebar_content table th {
     padding: 5px;
     font-size: 12px;
-    background: url(../images/grey-pixel.png);
+    background: url(../images/transparent-pixel.png);
     border-left: 1px solid #808080;
     border-bottom: 1px solid #808080;
 }
@@ -3973,5 +3967,6 @@ body.blue-skin #mobile_header {
     background: #0c3348;
 }
 
-
-
+.sidebar_content a {
+    text-decoration: none;
+}
