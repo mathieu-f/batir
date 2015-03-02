@@ -11,16 +11,19 @@
 	<div class="sidebar_content">
 	
 		<!-- logo -->
-		<div id="logo">
-			<?php if(get_option('rttheme_logo_url')):?>
-				<a href="<?php echo BLOGURL; ?>" title="<?php echo bloginfo('name');?>"><img src="<?php echo get_option('rttheme_logo_url'); ?>" alt="<?php echo bloginfo('name');?>" class="png" /></a>
-			<?php else:?>
-				<h1 class="cufon logo">
-					<a href="<?php echo BLOGURL; ?>" title="<?php echo bloginfo('name');?>"><?php echo bloginfo('name');?></a>
-				</h1>
-				<img src="../../../wp-includes/images/batir-cote-sud-little.png">
-			<?php endif;?>
-		</div>
+		<a href="<?php echo BLOGURL; ?>" title="<?php echo bloginfo( 'name' ); ?>">
+			<div id="logo">
+				<?php if ( get_option( 'rttheme_logo_url' ) ): ?>
+					<img src="<?php echo get_option( 'rttheme_logo_url' ); ?>" alt="<?php echo bloginfo( 'name' ); ?>"
+					     class="png"/>
+				<?php else: ?>
+					<h1 class="cufon logo">
+						<?php echo bloginfo( 'name' ); ?>
+					</h1>
+					<img src="../../../wp-includes/images/batir-cote-sud-little.png">
+				<?php endif; ?>
+			</div>
+		</a>
 		<!-- /logo -->
 		<div class="clear"></div>
 		
