@@ -39,7 +39,7 @@ class GoogleMapsWidget extends WP_Widget {
                                     'thumb_type' => 'roadmap',
                                     'thumb_zoom' => '13',
                                     'thumb_header' => '',
-                                    'thumb_footer' => '',
+                                    'thumb_footer' => 'Powered by Google Maps Widget',
                                     'thumb_color_scheme' => '',
                                     'thumb_link_type' => 'lightbox',
                                     'thumb_link' => '',
@@ -127,7 +127,7 @@ class GoogleMapsWidget extends WP_Widget {
     echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title', 'google-maps-widget') . ':</label><input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . esc_attr($title) . '" /></p>';
     echo '<p><label for="' . $this->get_field_id('address') . '">' . __('Address', 'google-maps-widget') . ':</label><input class="widefat" id="' . $this->get_field_id('address') . '" name="' . $this->get_field_name('address') . '" type="text" value="' . esc_attr($address) . '" /></p>';
 
-    echo '<div class="gmw-tabs" id="tab-' . $this->id . '"><ul><li><a href="#gmw-thumb">' . __('Thumbnail map', 'google-maps-widget') . '</a></li><li><a href="#gmw-lightbox">' . __('Lightbox map', 'google-maps-widget') . '</a></li><li><a href="#gmw-info">' . __('Info &amp; Support', 'google-maps-widget') . '</a></li></ul>';
+    echo '<div class="gmw-tabs" id="tab-' . $this->id . '"><ul><li><a href="#gmw-thumb">' . __('Thumbnail map', 'google-maps-widget') . '</a></li><li><a href="#gmw-lightbox">' . __('Lightbox map', 'google-maps-widget') . '</a></li><li><a href="#gmw-shortcode">' . __('Shortcode', 'google-maps-widget') . '</a></li><li><a href="#gmw-info">' . __('Info &amp; Support', 'google-maps-widget') . '</a></li></ul>';
     echo '<div id="gmw-thumb">';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('thumb_width') . '">' . __('Map Size', 'google-maps-widget') . ':</label>';
@@ -155,7 +155,7 @@ class GoogleMapsWidget extends WP_Widget {
     GMW::create_select_options($pin_sizes, $thumb_pin_size);
     echo '</select></p>';
 
-    echo '<p class="gmw_thumb_pin_type_custom_section"><label class="gmw-label gmw-label-wide" for="' . $this->get_field_id('thumb_pin_img') . '">' . __('Custom Pin Image URL', 'google-maps-widget') . ':</label>';
+    echo '<p class="gmw_thumb_pin_type_custom_section"><label class="gmw-label" for="' . $this->get_field_id('thumb_pin_img') . '">' . __('Pin Image URL', 'google-maps-widget') . ':</label>';
     echo '<input type="text" class="regular-text" id="' . $this->get_field_id('thumb_pin_img') . '" name="' . $this->get_field_name('thumb_pin_img') . '" value="' . esc_attr($thumb_pin_img) . '">';
 
     echo '<p><label class="gmw-label" for="' . $this->get_field_id('thumb_zoom') . '">' . __('Zoom Level', 'google-maps-widget') . ':</label>';
@@ -229,25 +229,41 @@ class GoogleMapsWidget extends WP_Widget {
 
     echo '</div>'; // lightbox tab
 
+    // shortcode tab
+    echo '<div id="gmw-shortcode">';
+    if (GMW::is_activated()) {
+      $id = str_replace('googlemapswidget-', '', $this->id);
+
+      if (!$id || !is_numeric($id)) {
+        echo __('Please save the widget so that the shortcode can be generated.', 'google-maps-widget');
+      } else {
+        echo '<p><code>[gmw id="' . $id . '"]</code><br></p>';
+        echo '<p>' . __('Use the above shortcode to display this Google Maps Widget instance in any page or post. <br>Please note that your theme might style the widget in the post as if it is placed in a sidebar. In that case use the <code>span.gmw-shortcode-widget</code> class to target the shortcode and make  necessary changes via CSS.', 'google-maps-widget') . '</p>';
+      }
+    } else {
+      echo '<p>Shortcode support is an extra feature. You can activate it <b>for free</b> and get more features &amp; options for free as well.<br><br><a class="button open_promo_dialog" href="#">Activate extra features</a></p>';
+    }
+    echo '</div>'; // shortcode tab
+
     echo '<div id="gmw-info">';
-    echo '<h3>' . __('Support', 'google-maps-widget') . '</h3>';
+    echo '<h4>' . __('Support', 'google-maps-widget') . '</h4>';
     echo '<p>If you have any problems, questions or would like a new feature added post it on the <a href="https://wordpress.org/support/plugin/google-maps-widget" target="_blank">official support forum</a>. It\'s the only place to get support. Since it\'s free and community powered please be patient. <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?business=gordan@webfactoryltd.com&cmd=_xclick&currency_code=USD&amount=19&item_name=Premium%20support%20for%20Google%20Maps%20Widget">Premium support</a> is available for $19.</p>';
-    echo '<h3>' . __('Activate extra features &amp; options', 'google-maps-widget') . '</h3>';
-    echo '<p>' . __('If you subscribe to our mailing list we\'ll instantly activate additional features in the plugin! At the moment those features are 3 additional thumbnail map skins and 2 additional lightbox skins. More <i>activate by subscribing</i> features will be available soon!', 'google-maps-widget') . '<br>';
+    echo '<h4>' . __('Activate extra features &amp; options', 'google-maps-widget') . '</h4>';
+    echo '<p>' . __('If you subscribe to our mailing list we\'ll instantly activate additional features in the plugin! At the moment those features are: shortcode support, 3 additional thumbnail map skins and 2 additional lightbox skins. More <i>activate by subscribing</i> features will be available soon!', 'google-maps-widget') . '<br>';
     if (GMW::is_activated()) {
       echo __('You\'ve already subscribed and activated extra features. Thank you!', 'google-maps-widget');
     } else {
       echo __('Subscribe and <a class="open_promo_dialog" href="#">activate extra features</a>.', 'google-maps-widget');
     }
     echo '</p>';
-    echo '<h3>' . __('Rate the plugin &amp; spread the word', 'google-maps-widget') . '</h3>';
+    echo '<h4>' . __('Rate the plugin &amp; spread the word', 'google-maps-widget') . '</h4>';
     echo '<p>It won\'t take you more than a minute but it will help us immensely. So please - <a href="https://wordpress.org/support/view/plugin-reviews/google-maps-widget" target="_blank">rate the plugin</a>. Or spread the word by <a href="https://twitter.com/intent/tweet?via=WebFactoryLtd&amp;text=' . urlencode('I\'m using the #free Google Maps Widget for #wordpress. You can grab it too at http://goo.gl/2qcbbf') . '" target="_blank">tweeting about it</a>. Thank you!</p>';
     echo '</div>'; // info tab
 
     echo '</div><p></p>'; // tabs
 
     if (!GMW::is_activated()) {
-      echo '<p><i>' . __('Subscribe to our newsletter and <a href="#" class="open_promo_dialog">get extra features</a> for free.', 'google-maps-widget') . '</i></p>';
+      echo '<p><i>' . __('Subscribe to our newsletter and <a href="#" class="open_promo_dialog">get extra features</a> <b>for free</b>.', 'google-maps-widget') . '</i></p>';
     }
   } // form
 
@@ -382,7 +398,11 @@ class GoogleMapsWidget extends WP_Widget {
     }
     $tmp .= '</p>';
     if (isset($instance['thumb_footer']) && $instance['thumb_footer']) {
-      $tmp .= wpautop(do_shortcode($instance['thumb_footer']));
+      if ($instance['thumb_footer'] == 'Powered by Google Maps Widget') {
+        $tmp .= '<span class="gmw-powered-by">Powered by <a href="http://www.googlemapswidget.com" target="_blank">Google Maps Widget</a></span>';
+      } else {
+        $tmp .= wpautop(do_shortcode($instance['thumb_footer']));
+      }
     }
     $out .= apply_filters('google_maps_widget_content', $tmp);
 

@@ -1,4 +1,4 @@
-#   BULLETPROOF .51.4 >>>>>>> SECURE .HTACCESS     
+#   BULLETPROOF .51.7 >>>>>>> SECURE .HTACCESS     
 
 # PHP/PHP.INI HANDLER/CACHE CODE
 # Use BPS Custom Code to add php/php.ini Handler and Cache htaccess code and to save it permanently.
@@ -32,7 +32,7 @@ DirectoryIndex index.php index.html /index.php
 # See this link: http://forum.ait-pro.com/forums/topic/protect-login-page-from-brute-force-login-attacks/
 # for more information.
 
-# BPS PRO ERROR LOGGING AND TRACKING
+# BPS ERROR LOGGING AND TRACKING
 # Use BPS Custom Code to modify/edit/change this code and to save it permanently.
 # BPS has premade 403 Forbidden, 400 Bad Request and 404 Not Found files that are used 
 # to track and log 403, 400 and 404 errors that occur on your website. When a hacker attempts to
@@ -130,7 +130,7 @@ RewriteRule .* index.php [F]
 # Example: Whitelist additional misc files: (example\.php|another-file\.php|phpthumb\.php|thumb\.php|thumbs\.php)
 RewriteCond %{REQUEST_URI} (timthumb\.php|phpthumb\.php|thumb\.php|thumbs\.php) [NC]
 # Example: Whitelist additional website domains: RewriteCond %{HTTP_REFERER} ^.*(YourWebsite.com|AnotherWebsite.com).*
-RewriteCond %{HTTP_REFERER} ^.*demo2.local.*
+RewriteCond %{HTTP_REFERER} ^.*batir-cote-sud.fr.*
 RewriteRule . - [S=1]
 
 # BEGIN BPSQSE BPS QUERY STRING EXPLOITS
