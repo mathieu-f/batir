@@ -158,7 +158,8 @@ body {
 /* hide mobile header */
 #mobile_header {
     display: none;
-    background: #343434;
+    /*background: #343434; default*/
+    background: #fff;
     padding: 20px 0;
     margin: 0 auto;
 }
@@ -179,7 +180,8 @@ body {
 
 /* sidebar background color */
 .sidebar_content {
-    background: #343434;
+    /*background: #343434; default*/
+    background: #fff;
     padding: 0 30px;
     color:#cecece;
 }
