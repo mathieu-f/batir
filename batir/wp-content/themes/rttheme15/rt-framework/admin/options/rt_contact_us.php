@@ -97,8 +97,13 @@ $options = array (
 			
 			array(
 					"name" => __("GOOGLE MAP",'rt_theme_admin'), 
-					"type" => "heading"), 
-			
+					"type" => "heading"),
+
+			array(
+					"name" => __("Map name",'rt_theme_admin'),
+					"id" => THEMESLUG."_map_name",
+					"type" => "text"),
+
 			array(
 					"name" => __("Map Code",'rt_theme_admin'),
 					"desc" => __('Map code width must be 640px and recommended height is 200px. You can generate your own map code from <a href="http://maps.google.com">http://maps.google.com</a> Click the link icon top of the Google Maps page then click "Customize and preview embedded map" link on the pop-up page.','rt_theme_admin'),

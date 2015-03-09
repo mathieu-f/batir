@@ -2775,7 +2775,7 @@ form label {
     line-height: 100%;
     padding: 0 0 7px 0 !important;
     position: relative;
-    color: #8B8B8B;
+    /*color: #8B8B8B;*/
 }
 
 /* list in forms */

@@ -4,7 +4,8 @@
 */
 
 #
-#	Contact Page Options 
+#	Contact Page Options
+$map_name 				= wpml_t(THEMESLUG, 'Contact - Map name', get_option(THEMESLUG.'_map_name'));
 $map_code 				= get_option(THEMESLUG.'_map_code');
 $contact_title			= wpml_t(THEMESLUG, 'Contact - Title', get_option(THEMESLUG.'_contact_title'));
 $contact_text 			= wpml_t(THEMESLUG, 'Contact - Text', get_option(THEMESLUG.'_contact_text'));
@@ -24,6 +25,7 @@ $contact_details_active	= get_option(THEMESLUG.'_details_active');
 		
 
 	<!-- Google Map-->
+	<?php if($map_name) echo '<h5>'.$map_name.'</h5>';?>
 	<?php
 	if($map_code) echo $map_code.'<div class="bold_line"></div>';
 	?>
