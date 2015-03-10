@@ -1,7 +1,4 @@
-<div class="purchase_block">
-	<div class="purchase_block_txt">Get Creative Image Slider Commercial and gain access to <b style="color: rgb(9, 24, 201);text-shadow: -1px 1px 0px rgba(0,0,0,0.33);">Unlimited Items, Unlimited Sliders, NO CopyRight, Professional Support.</b></div>
-    <a href="http://creative-solutions.net/wordpress/creative-image-slider" id="wpcis_buy_pro" target="_blank">Get Creative Image Slider Commercial</a>
-</div>
+
 <?php 
 $page = isset($_GET['page']) ? $_GET['page'] : 'creativeimageslider';
 $act = isset($_GET['act']) ? $_GET['act'] : '';

@@ -59,13 +59,6 @@ label {
 	background-position: left top;
 }
 
-#twoglux_ext_buy {
-	background:transparent url("../images/shopping_cart_32.png") left 1px no-repeat;
-}
-#twoglux_ext_buy:HOVER {
-	background-position: left top;
-}
-
 #twoglux_ext_support {
 	background:transparent url("../images/support.png") left 1px no-repeat;
 }
