@@ -69,12 +69,30 @@ $(document).ready(function() {
 	/*
 	//add popup html
 	*/
-	function cis_add_creative_popup_html() {
-		var cis_base = $(".cis_main_wrapper").attr("cis_base");
-		var popup_loader_loading_class = 'cis_popup_wrapper_loader';
-		var loader_popup_html = '<div class="cis_popup_wrapper '+ popup_loader_loading_class +'" cis_popup_autoplay="2"><div class="cis_popup_autoplay_bar_holder"><div class="cis_popup_autoplay_bar_wrapper"><div class="cis_popup_autoplay_bar"></div></div></div><div class="cis_popup_item_holder"><img src="" class="cis_popup_left_arrow" /><img src="" class="cis_popup_right_arrow" /><div class="cis_popup_item_order_info"></div><img src="' + cis_base + 'assets/images/play.png" class="cis_popup_autoplay_play" /><img src="' + cis_base + 'assets/images/pause.png" class="cis_popup_autoplay_pause cis_popup_topright_icon_hidden"/><img src="' + cis_base + 'assets/images/close.png" class="cis_popup_close" /><div style="height: auto;font-weight: normal;text-shadow: rgb(0, 0, 0) 0px 3px 3px;padding: 4px 10px 5px 8px;line-height: 15px;color: rgb(255, 255, 255);font-style: italic;font-size: 12px;position: absolute;display: block;z-index: 10;bottom: 5px;right: -200px;background: rgba(0, 0, 0, 0.39);border: solid 1px rgba(68, 65, 65, 0.59);border-top-left-radius: 6px;border-bottom-left-radius: 6px;border-right: 0;box-shadow: 1px 1px 3px 1px rgba(5, 0, 0, 0.6);-webkit-box-shadow: 1px 1px 3px 1px rgba(5, 0, 0, 0.6);-moz-box-shadow: 1px 1px 3px 1px rgba(5, 0, 0, 0.6);opacity: 0.7;">By <a href="http://creative-solutions.net/wordpress/creative-image-slider" target="_blank" style="font-weight: bold;color: rgb(72, 108, 253);">Creative Image Slider</a></div></div><div class="cis_popup_bottom_holder"></div></div>';
-		$('body').append(loader_popup_html);
-	};
+    function cis_add_creative_popup_html() {
+        var cis_base = $(".cis_main_wrapper").attr("cis_base");
+        var popup_loader_loading_class = 'cis_popup_wrapper_loader';
+        var loader_popup_html = '<div class="cis_popup_wrapper ' + popup_loader_loading_class + '" cis_popup_autoplay="2">' +
+            '<div class="cis_popup_autoplay_bar_holder">' +
+                '<div class="cis_popup_autoplay_bar_wrapper">' +
+                    '<div class="cis_popup_autoplay_bar"></div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="cis_popup_item_holder">' +
+                '<img src="" class="cis_popup_left_arrow" />' +
+                '<img src="" class="cis_popup_right_arrow" />' +
+                '<div class="cis_popup_item_order_info"></div>' +
+                '<img src="' + cis_base + 'assets/images/play.png" class="cis_popup_autoplay_play" />' +
+                '<img src="' + cis_base + 'assets/images/pause.png" class="cis_popup_autoplay_pause cis_popup_topright_icon_hidden"/>' +
+                '<img src="' + cis_base + 'assets/images/close.png" class="cis_popup_close" />' +
+                '<div style="height: auto;font-weight: normal;text-shadow: rgb(0, 0, 0) 0px 3px 3px;padding: 4px 10px 5px 8px;line-height: 15px;color: rgb(255, 255, 255);font-style: italic;font-size: 12px;position: absolute;display: block;z-index: 10;bottom: 5px;right: -200px;background: rgba(0, 0, 0, 0.39);border: solid 1px rgba(68, 65, 65, 0.59);border-top-left-radius: 6px;border-bottom-left-radius: 6px;border-right: 0;box-shadow: 1px 1px 3px 1px rgba(5, 0, 0, 0.6);-webkit-box-shadow: 1px 1px 3px 1px rgba(5, 0, 0, 0.6);-moz-box-shadow: 1px 1px 3px 1px rgba(5, 0, 0, 0.6);opacity: 0.7;">' +
+
+                '</div>' +
+            '</div>' +
+            '<div class="cis_popup_bottom_holder"></div>' +
+            '</div>';
+        $('body').append(loader_popup_html);
+    };
 	cis_add_creative_popup_html();
 
 	/*
@@ -2474,7 +2492,8 @@ $(document).ready(function() {
 	//make back
 	function cis_make_backlinks() {
 		$('.cis_main_wrapper').each(function() {
-			var cis_back_htm = '<div style="display: block !important;z-index: 99;font-weight: normal;padding: 3px 10px 3px 8px;line-height: 20px;background-color: #000;color: #fff;position: absolute;right: 0px;font-style: italic;font-size: 12px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;bottom: 0px;opacity: 0;background-image: linear-gradient(to bottom,#000000,#383838) !important;text-shadow: 0 3px 3px #000000;border: 1px solid rgb(0, 0, 0);border-top: 0;">By <a style="font-weight: bold;color: rgb(72, 108, 253);" href="http://creative-solutions.net/wordpress/creative-image-slider" target="_blank">Creative Image Slider</a></div>';
+			var cis_back_htm = '<div style="display: block !important;z-index: 99;font-weight: normal;/*padding: 3px 10px 3px 8px;*/line-height: 20px;background-color: #000;color: #fff;position: absolute;right: 0px;font-style: italic;font-size: 12px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;bottom: 0px;opacity: 0;background-image: linear-gradient(to bottom,#000000,#383838) !important;text-shadow: 0 3px 3px #000000;border: 1px solid rgb(0, 0, 0);border-top: 0;">' +
+                '</div>';
 			$(this).append(cis_back_htm);
 			var $back = $(this).children('div').last();
 			var h = parseInt($back.height()) + 7*1;

@@ -6,7 +6,7 @@ $task = isset($_REQUEST['task']) ? $_REQUEST['task'] : '';
 $sql = "SELECT COUNT(id) FROM ".$wpdb->prefix."cis_sliders";
 $count_sliders = $wpdb->get_var($sql);
 
-if($id == 0 && $count_sliders < 1) {
+if($id == 0) {
 	$sql = "SELECT MAX(`ordering`) FROM `".$wpdb->prefix."cis_sliders`";
 	$max_order = $wpdb->get_var($sql) + 1;
 
