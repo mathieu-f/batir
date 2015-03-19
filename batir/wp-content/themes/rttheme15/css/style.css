@@ -141,7 +141,8 @@ body {
 #logo h1, #mobile_logo h1 {
     font-size: 32px;
     color: #00339A;
-    margin: 0 -21px;
+    margin: 0 -13px;
+    letter-spacing: -1px;
     font-family: 'CenturyGothicBold', sans-serif;
     z-index: 10;
 }
@@ -201,7 +202,7 @@ body {
 /* content holder */
 .content {
     background: #fff;
-    padding: 0 30px 1px 30px;
+    padding: 10px 50px;
 }
 
 /* graphic cover for slider */
@@ -3976,4 +3977,8 @@ body.blue-skin #mobile_header {
 
 .sidebar_content a {
     text-decoration: none;
+}
+
+.contact_list {
+    font-size:13px;
 }
