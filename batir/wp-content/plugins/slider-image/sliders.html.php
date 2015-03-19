@@ -47,6 +47,20 @@ function html_showsliders( $rows,  $pageNav,$sort,$cat_row){
 	</script>
 
 <div class="wrap">
+	<?php $path_site2 = plugins_url("images", __FILE__); ?>
+	<div class="slider-options-head">
+		<div style="float: left;">
+			<div><a href="http://huge-it.com/wordpress-plugins-slider-user-manual/" target="_blank">User Manual</a></div>
+			<div>This section allows you to configure the Slider options. <a href="http://huge-it.com/wordpress-plugins-slider-user-manual/" target="_blank">More...</a></div>
+		</div>
+		<div style="float: right;">
+			<a class="header-logo-text" href="http://huge-it.com/slider/" target="_blank">
+				<div><img width="250px" src="<?php echo $path_site2; ?>/huge-it1.png" /></div>
+				<div>Get the full version</div>
+			</a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
 	<div id="poststuff">
 		<div id="sliders-list-page">
 			<form method="post"  onkeypress="doNothing()" action="admin.php?page=sliders_huge_it_slider" id="admin_form" name="admin_form">
@@ -214,6 +228,20 @@ function change_select()
 <!-- GENERAL PAGE, ADD IMAGES PAGE -->
 
 <div class="wrap">
+	<?php $path_site2 = plugins_url("images", __FILE__); ?>
+	<div class="slider-options-head">
+		<div style="float: left;">
+			<div><a href="http://huge-it.com/wordpress-plugins-slider-user-manual/" target="_blank">User Manual</a></div>
+			<div>This section allows you to configure the Slider options. <a href="http://huge-it.com/wordpress-plugins-slider-user-manual/" target="_blank">More...</a></div>
+		</div>
+		<div style="float: right;">
+			<a class="header-logo-text" href="http://huge-it.com/slider/" target="_blank">
+				<div><img width="250px" src="<?php echo $path_site2; ?>/huge-it1.png" /></div>
+				<div>Get the full version</div>
+			</a>
+		</div>
+	</div>
+	<div style="clear:both;"></div>
 <form action="admin.php?page=sliders_huge_it_slider&id=<?php echo $row->id; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="poststuff" >
 	<div id="slider-header">
@@ -253,9 +281,9 @@ function change_select()
 						<h3>Slides</h3>
 <script>
 jQuery(document).ready(function($){
-	jQuery(".wp-media-buttons-icon").click(function() {
+	/*jQuery(".wp-media-buttons-icon").click(function() {
 		jQuery(".attachment-filters").css("display","none");
-	});
+	});*/
   var _custom_media = true,
       _orig_send_attachment = wp.media.editor.send.attachment;
 	 
@@ -286,13 +314,13 @@ jQuery(document).ready(function($){
     _custom_media = false;
 	
   });
-	jQuery(".wp-media-buttons-icon").click(function() {
+	/*jQuery(".wp-media-buttons-icon").click(function() {
 		jQuery(".media-menu-item").css("display","none");
 		jQuery(".media-menu-item:first").css("display","block");
 		jQuery(".separator").next().css("display","block");
 		jQuery('.attachment-filters').val('image').trigger('change');
 		jQuery(".attachment-filters").css("display","none");
-	});
+	});*/
 });
 </script>
 						<input type="hidden" name="imagess" id="_unique_name" />
@@ -319,7 +347,7 @@ jQuery(document).ready(function($){
 											imgurl = jQuery('img', html).attr('src');
 											window.parent.uploadID.val(imgurl);
 											tb_remove();
-											$("#save-buttom").click();
+											jQuery("#save-buttom").click();
 										};
 									});
 						</script>				
@@ -369,7 +397,7 @@ jQuery(document).ready(function($){
 									  jQuery('.add_media').on('click', function(){
 										_custom_media = false;
 									  });
-										jQuery(".huge-it-editnewuploader").click(function() {
+										/* jQuery(".huge-it-editnewuploader").click(function() {
 										});
 											jQuery(".wp-media-buttons-icon").click(function() {
 											jQuery(".media-menu-item").css("display","none");
@@ -378,7 +406,7 @@ jQuery(document).ready(function($){
 											jQuery('.attachment-filters').val('image').trigger('change');
 											jQuery(".attachment-filters").css("display","none");
 
-										});
+										});*/
 									});
 								</script>
 								<input type="hidden" name="imagess<?php echo $rowimages->id; ?>" id="_unique_name<?php echo $rowimages->id; ?>" value="<?php echo $rowimages->image_url; ?>" />
@@ -516,7 +544,7 @@ jQuery(document).ready(function($){
 																window.parent.uploadID.val(imgurl);
 																
 																tb_remove();
-																$("#save-buttom").click();
+																jQuery("#save-buttom").click();
 															};
 														});
 															
@@ -720,33 +748,39 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 						jQuery(liID).addClass('active');
 						return false;
 					});
+					
+					jQuery('.huge-it-insert-post-button').on('click', function() {
+						alert("Add Post Slide feature is disabled in free version. If you need this functionality, you need to buy the commercial version.");
+						return false;
+					});
+			
 
 					jQuery('#slider-posts-tabs-content-0 .huge-it-insert-post-button').on('click', function() {
 						var ID1 = jQuery('#huge-it-add-posts-params').val();
-						if(ID1==""){alert("Please select images to insert into slider.");return false;}
+						if(ID1==""){return false;}
 						window.parent.uploadID.val(ID1);
 						tb_remove();
-						$("#save-buttom").click();
+						jQuery("#save-buttom").click();
 						
 					});
 				
-					$('.huge-it-post-checked').change(function(){
-						if($(this).is(':checked')){
-							$(this).addClass('active');
-							$(this).parent().addClass('active');
+					jQuery('.huge-it-post-checked').change(function(){
+						if(jQuery(this).is(':checked')){
+							jQuery(this).addClass('active');
+							jQuery(this).parent().addClass('active');
 						}else {
-							$(this).removeClass('active');
-							$(this).parent().removeClass('active');
+							jQuery(this).removeClass('active');
+							jQuery(this).parent().removeClass('active');
 						}
 						
 						var inputval="";
-						$('#huge-it-add-posts-params').val("");
-						$('.huge-it-post-checked').each(function(){
-							if($(this).is(':checked')){
-								inputval+=$(this).val()+";";
+						jQuery('#huge-it-add-posts-params').val("");
+						jQuery('.huge-it-post-checked').each(function(){
+							if(jQuery(this).is(':checked')){
+								inputval+=jQuery(this).val()+";";
 							}
 						});
-						$('#huge-it-add-posts-params').val(inputval);
+						jQuery('#huge-it-add-posts-params').val(inputval);
 					});
 											
 					jQuery('#huge_it_slider_add_posts_wrap .view-type-block a').click(function(){
@@ -760,7 +794,7 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 
 					jQuery('.updated').css({"display":"none"});
 				<?php	if($_GET["closepop"] == 1){ ?>
-					$("#closepopup").click();
+					jQuery("#closepopup").click();
 					self.parent.location.reload();
 				<?php	} ?>
 				});
@@ -771,6 +805,7 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 	
 	<div id="huge_it_slider_add_posts">
 		<div id="huge_it_slider_add_posts_wrap">
+			<span class="buy-pro">This feature is disabled in free version. </br>If you need this functionality, you need to <a href="http://huge-it.com/slider/" target="_blank">buy the commercial version</a>.</span>
 			<ul id="slider-posts-tabs">
 				<li  class="active"><a href="#slider-posts-tabs-content-0">Static posts</a></li>
 				<li><a href="#slider-posts-tabs-content-1">Last posts</a></li>
@@ -779,7 +814,7 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 				<li id="slider-posts-tabs-content-0"  class="active">
 					<!-- STATIC POSTS -->
 					<div class="control-panel">
-					<form method="post"  onkeypress="doNothing()" action="admin.php?page=sliders_huge_it_slider&task=popup_posts&id=<?php echo $_GET['id']; ?>" id="huge-it-category-form" name="admin_form">
+	
 						<label for="huge-it-categories-list">Select Category <select id="huge-it-categories-list" name="iframecatid" onchange="this.form.submit()">
 						<?php $categories = get_categories(  ); ?>
 						<?php	 foreach ($categories as $strcategories){
@@ -797,8 +832,8 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 						}
 						?> 
 						</select></label>
-					</form>
-					<form method="post"  onkeypress="doNothing()" action="admin.php?page=sliders_huge_it_slider&task=popup_posts&id=<?php echo $_GET['id']; ?>&closepop=1" id="admin_form" name="admin_form">
+				
+				
 						<button class='save-slider-options button-primary huge-it-insert-post-button' id='huge-it-insert-post-button-top'>Insert Posts</button>
 						<label for="huge-it-description-length">Description Length <input id="huge-it-description-length" type="text" name="posthuge-it-description-length" value="<?php echo $row->published; ?>" placeholder="Description length" /></label>
 						<div class="view-type-block">
@@ -854,11 +889,11 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 					<input id="huge-it-add-posts-params" type="hidden" name="popupposts" value="" />
 					<div class="clear"></div>
 					<button class='save-slider-options button-primary huge-it-insert-post-button' id='huge-it-insert-post-button-bottom'>Insert Posts</button>
-					</form>
+			
 				</li>
 				<li id="slider-posts-tabs-content-1" class="recent-post-options">
 					<!-- RECENT POSTS -->
-					<form method="post"  onkeypress="doNothing()" action="admin.php?page=sliders_huge_it_slider&task=popup_posts&id=<?php echo $_GET['id']; ?>&closepop=1" id="huge-it-category-form" name="admin_form">
+				
 								<div>
 									<div class="left less-margin height">
 										<?php $categories = get_categories(); ?>
@@ -909,7 +944,7 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 						<input id="huge-it-add-posts-params" type="hidden" name="addlastposts" value="addlastposts" />
 						<div class="clear"></div>
 						<button class='save-slider-options button-primary huge-it-insert-post-button' id='huge-it-insert-post-button-bottom'>Insert Posts</button>
-					</form>
+		
 				</li>
 			</ul>		
 		</div>
@@ -917,7 +952,6 @@ function html_popup_posts($ord_elem, $count_ord,$images,$row,$cat_row, $rowim, $
 	<?php
 }
 ?>
-
 
 <?php
 function html_popup_video(){
