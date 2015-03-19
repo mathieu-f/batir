@@ -22,7 +22,7 @@
 
 	<!-- page title --> 
 	<?php if(!is_front_page() && !is_blog_page()):?>
-		<div class="head_text"><h2><?php the_title(); ?></h2></div><!-- / page title -->  
+		<div class="head_text"><h1><?php the_title(); ?></h1></div><!-- / page title -->
 	<?php endif;?>
 	
 			

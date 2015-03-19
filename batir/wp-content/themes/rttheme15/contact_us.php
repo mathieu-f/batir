@@ -40,7 +40,7 @@ $contact_details_active	= get_option(THEMESLUG.'_details_active');
 	
 		<?php if ($contact_details_active):?>
 			<!-- Contact Details -->
-			<?php if($contact_title) echo '<h5>'.$contact_title.'</h5><div class="bold_line"></div>';?>
+			<?php if($contact_title) echo '<h2>'.$contact_title.'</h2><div class="bold_line"></div>';?>
 			<?php if($contact_text) echo '<p>'.$contact_text.'</p>';?>
 		
 			<ul class="contact_list">
@@ -61,7 +61,7 @@ $contact_details_active	= get_option(THEMESLUG.'_details_active');
 
 		if ($contact_form_active){
 	
-			if($contact_form_title) echo '<h5>'.$contact_form_title.'</h5><div class="bold_line"></div>';
+			if($contact_form_title) echo '<h2>'.$contact_form_title.'</h2><div class="bold_line"></div>';
 	
 			//Default Contact Form
 			if($contact_form_active && $contact_email && !$third_party_plugin){			
