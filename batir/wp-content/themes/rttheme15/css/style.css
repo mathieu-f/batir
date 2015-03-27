@@ -344,12 +344,12 @@ body {
 
 .content a:hover {
     text-decoration: none;
-    color: #e77927;
+    color: #f5970a;
 }
 
 /* arrow links */
 a.more_arrow {
-    color: #e77927;
+    color: #f5970a;
     text-decoration: none;
 }
 
@@ -369,7 +369,7 @@ a.read_more {
 }
 
 a.read_more:hover {
-    color: #e77927;
+    color: #f5970a;
 }
 
 /* sidebar content links */
@@ -469,7 +469,7 @@ img.featured {
 }
 
 .widget ul a:hover {
-    color: #e77927;
+    color: #f5970a;
 }
 
 .widget ul {
@@ -794,7 +794,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     font-family: 'Oswald', arial, serif;
     line-height: 140% !important;
-    color: #e77927;
+    color: #f5970a;
 }
 
 h1 {
@@ -823,12 +823,12 @@ h6 {
 
 /*	heading colors and links  */
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-    color: #e77927 !important;
+    color: #f5970a !important;
     text-decoration: none !important;
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-    background: #e77927;
+    background: #f5970a;
     color: #fff !important;
 }
 
@@ -890,12 +890,12 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 
 /* description links */
 #slider .desc span.text a {
-    color: #e77927;
+    color: #f5970a;
     text-decoration: none;
 }
 
 #slider .desc span.text a:hover, #slider .desc span.title a:hover {
-    background-color: #e77927;
+    background-color: #f5970a;
     color: #fff !important;
 }
 
@@ -931,7 +931,7 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 /* active button style*/
 #numbers a.activeSlide {
     display: inline-block;
-    background: #e77927;
+    background: #f5970a;
     margin: 0 0 0 4px;
     padding: 0;
 }
@@ -943,12 +943,12 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 }
 
 .theme-default .nivo-caption .nivo-text a {
-    color: #e77927;
+    color: #f5970a;
     background: transparent;
 }
 
 .theme-default .nivo-directionNav a {
-    background-color: #e77927;
+    background-color: #f5970a;
     color: #fff;
 }
 
@@ -958,17 +958,17 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 }
 
 .theme-default .nivo-caption a:hover {
-    background-color: #e77927;
+    background-color: #f5970a;
     color: #fff !important;
 }
 
 .theme-default .nivo-caption .nivo-title a:hover {
-    background-color: #e77927;
+    background-color: #f5970a;
     color: #fff !important;
 }
 
 .theme-default .nivo-controlNav a {
-    background: #e77927;
+    background: #f5970a;
 }
 
 .theme-default .nivo-controlNav a.active {
@@ -1017,7 +1017,7 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
 /* active number style*/
 .slider_buttons a.activeSlide {
     display: inline-block;
-    background: #e77927;
+    background: #f5970a;
     margin: 0 0 0 4px;
     padding: 0;
 }
@@ -1565,7 +1565,7 @@ span.price {
 /* active button style*/
 #P_numbers a.activeSlide {
     display: inline-block;
-    background: #e77927;
+    background: #f5970a;
     margin: 0 0 0 4px;
     padding: 0;
 }
@@ -1675,12 +1675,12 @@ span.price {
 
 /* text selection */
 ::selection {
-    background: #e77927; /* Safari */
+    background: #f5970a; /* Safari */
     color: #fff;
 }
 
 ::-moz-selection {
-    background: #e77927; /* Firefox */
+    background: #f5970a; /* Firefox */
     color: #fff;
 }
 
@@ -2284,7 +2284,7 @@ table td {
 }
 
 #footer a:hover {
-    color: #e77927;
+    color: #f5970a;
     text-decoration: underline;
 }
 

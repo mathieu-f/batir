@@ -142,7 +142,7 @@ display:block;
 }
 
 .ppy-caption a {
-	color:#e77927;
+	color:#f5970a;
 }
 .ppy-caption a:hover {
 text-decoration:underline;
@@ -208,7 +208,7 @@ background:     url(../images/popeye/compact3.png) no-repeat center;
 }
 
 .ppy-nav a:hover {
-background-color:   #e77927;
+background-color:   #f5970a;
 cursor:         pointer;
 }
 

@@ -16,12 +16,12 @@ jQuery(window).load(function() {
 			smoothHeight: true,   
 		 	directionNav: false, 
 			before: function(slider){  
-				if(slider.width()>600){
+				if(slider.width()>=600){
 			  		jQuery('.flexslider.home_main').find('.title,.text').css({'right':'-100px','opacity':'0'},0);
 			  	}
 			}, 
 			after: function(slider){   
-				if(slider.width()>600){
+				if(slider.width()>=600){
 					jQuery('.flexslider.home_main .flex-active-slide').find('.title').animate({'right':'0px','opacity':'1'},800,'easeOutBack');
 					jQuery('.flexslider.home_main .flex-active-slide').find('.text').delay(300).animate({'right':'0px','opacity':'1'},800,'easeOutBack');  
 				}else{

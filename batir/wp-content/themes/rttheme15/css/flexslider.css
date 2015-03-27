@@ -118,7 +118,7 @@ html[xmlns] .slides {display: block;}
     font-size: 10px;        
 }
 .flex-control-paging li a.flex-active,.flex-control-paging li a:hover{
-    background: #e77927;
+    background: #f5970a;
 }
  
 
@@ -185,12 +185,12 @@ html[xmlns] .slides {display: block;}
 
 /* description links */
 .flexslider .desc span.text a{
-	color:#e77927;
+	color:#f5970a;
 	text-decoration:none;
 }
 
 .flexslider .desc span.text a:hover, .flexslider .desc span.title a:hover{
-	background-color:#e77927;
+	background-color:#f5970a;
 	color:#fff !important;
 }
  

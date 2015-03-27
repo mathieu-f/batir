@@ -97,7 +97,6 @@ function rt_custom_styling(){
 		echo '.title h4{font-size:'.$rttheme_box_title_font_size.'px;line-height:140%;}';
 	}
 
-
 	#
 	#   Custom Main Theme Color
 	#
@@ -117,7 +116,7 @@ function rt_custom_styling(){
 		echo 'body #container  .sidebar_content h1,body #container  h2,body #container  .sidebar_content h3,body #container  .sidebar_content h4,body #container  .sidebar_content h5,body #container  .sidebar_content h6{ color:'.$rttheme_custom_theme_color.';}';
 		echo 'body #container  .sidebar_content h1 a, body #container  .sidebar_content h2 a, body #container  .sidebar_content h3 a, body #container  .sidebar_content h4 a, body #container  .sidebar_content h5 a, body #container  .sidebar_content h6 a{ color:'.$rttheme_custom_theme_color.' !important;}';
 		echo 'body #container  .sidebar_content h1 a:hover,body #container  .sidebar_content h2 a:hover,body #container  .sidebar_content h3 a:hover,body #container  .sidebar_content h4 a:hover,body #container  .sidebar_content h5 a:hover,body #container  .sidebar_content h6 a:hover{ background:'.$rttheme_custom_theme_color.';color:#fff !important;}';		
-		echo 'body #container  .content a:hover{ color:'.$rttheme_custom_theme_color.' !important;}';		
+		echo 'body #container  .content a:hover{ color:'.$rttheme_custom_theme_color.';}';
 		echo 'body #container  .widget ul a:hover{color:'.$rttheme_custom_theme_color.' !important;}';
 		echo 'body #container  a.more_arrow{ color:'.$rttheme_custom_theme_color.' !important;}';
 		echo 'body #container  a.read_more:hover{ color:'.$rttheme_custom_theme_color.' !important;}';

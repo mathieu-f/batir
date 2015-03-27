@@ -150,7 +150,7 @@
 		font-weight:normal;
 		font-family: 'Oswald', arial, serif;
 		line-height:140%;
-		color:#e77927;
+		color:#f5970a;
 	}
 	
 	h1{
@@ -179,12 +179,12 @@
 	
 	/*	heading colors and links  */
 	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a{
-		color:#e77927 !important;
+		color:#f5970a !important;
 		text-decoration:none !important; 
 	}
 	
 	h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover{
-		background:#e77927;
+		background:#f5970a;
 		color:#fff !important;
 	}
 	
