@@ -298,4 +298,4 @@ if ( function_exists('register_uninstall_hook') )
 	register_uninstall_hook( __FILE__, 'wonderplugin_gridgallery_uninstall' );
 }
 
-define('WONDERPLUGIN_GRIDGALLERY_VERSION_TYPE', 'F');
+define('WONDERPLUGIN_GRIDGALLERY_VERSION_TYPE', 'C');
