@@ -103,7 +103,7 @@ function rt_custom_styling(){
 	$rttheme_custom_theme_color=get_option('rttheme_custom_theme_color');
 	if($rttheme_custom_theme_color){
 		echo 'body #container h1,body #container h2,body #container h3,body #container h4,body #container h5,body #container h6, body #container h1 a, body #container h2 a, body #container h3 a, body #container h4 a, body #container h5 a, body #container h6 a{color:'.$rttheme_custom_theme_color.' !important;}';
-		echo 'body #container .content h1 a:hover,body #container .content h2 a:hover,body #container .content h3 a:hover,body #container .content h4 a:hover,body #container .content h5 a:hover,body #container .content h6 a:hover{ background:'.$rttheme_custom_theme_color.';color:#fff !important;}';
+		echo 'body #container .content h1 a:hover,body #container .content h2 a:hover,body #container .content h3 a:hover,body #container .content h4 a:hover,body #container .content h5 a:hover,body #container .content h6 a:hover{background:#fff !important; color:'.$rttheme_custom_theme_color.' !important;}';
 		echo 'body #container  #slider .desc span.text a  { color:'.$rttheme_custom_theme_color.' !important;}';
 		echo 'body #container #slider .desc span.text a:hover, body #container  #slider .desc span.title a:hover{ color:#fff !important; background-color:'.$rttheme_custom_theme_color.'  !important;}';
 		echo 'body #container #numbers a.activeSlide {background: '.$rttheme_custom_theme_color.' !important;}';
@@ -139,7 +139,7 @@ function rt_custom_styling(){
 	$rttheme_heading_color=get_option('rttheme_heading_color');
 	if($rttheme_heading_color){
 		echo 'body #container h1,body #container h2,body #container h3,body #container h4,body #container h5,body #container h6, body #container h1 a, body #container h2 a, body #container h3 a, body #container h4 a, body #container h5 a, body #container h6 a{color:'.$rttheme_heading_color.' !important;}';
-		echo 'body #container .content h1 a:hover,body #container .content h2 a:hover,body #container .content h3 a:hover,body #container .content h4 a:hover,body #container .content h5 a:hover,body #container .content h6 a:hover{ background:'.$rttheme_heading_color.';color:#fff !important;}';
+		//echo 'body #container .content h1 a:hover,body #container .content h2 a:hover,body #container .content h3 a:hover,body #container .content h4 a:hover,body #container .content h5 a:hover,body #container .content h6 a:hover{ background:'.$rttheme_heading_color.';color:#fff !important;}';
 	}
 
 
